@@ -1,0 +1,15 @@
+$primary-color: #36b1b7;
+$secondary-color: #0052cc;
+$background: #222324;
+$background-secondary: #1c1c1c;
+$background-darker: #161718;
+$background-darker-secondary: #282828;
+$font-color: #ffff;
+$label-color: darken(
+	$color: $font-color,
+	$amount: 20
+);
+$link-color: rgb(57, 153, 255);
+$navbar-background: $background;
+$error-color: rgb(255, 38, 38);
+$spinner-color: #36b1b7;
