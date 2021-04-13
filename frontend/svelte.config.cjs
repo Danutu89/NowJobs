@@ -31,7 +31,8 @@ module.exports = {
 					$constants: resolve('./src/constants'),
 					$reducers: resolve('./src/reducers'),
 					$interceptors: resolve('./src/interceptors'),
-					$vendor: resolve('./src/vendor')
+					$vendor: resolve('./src/vendor'),
+					$types: resolve('./src/types')
 				}
 			},
 			plugins: [babel]

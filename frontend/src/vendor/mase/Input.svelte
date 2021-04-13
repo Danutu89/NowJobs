@@ -16,7 +16,7 @@
 		borderless: boolean = false,
 		size: string = '16px',
 		trasparent: boolean = false,
-		style: boolean;
+		style: string;
 
 	let element, regPattern;
 

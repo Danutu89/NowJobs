@@ -102,12 +102,12 @@
 		.options {
 			display: none;
 			position: absolute;
-			width: min-content;
 			margin-top: 0.2rem;
 			background: lighten($color: $background, $amount: 10);
 			border: 1px solid lighten($color: $background, $amount: 20);
 			border-radius: 6px;
 			width: fit-content;
+			width: -moz-fit-content;
 			z-index: 2;
 
 			&.opened {
