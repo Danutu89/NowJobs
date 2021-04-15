@@ -1,8 +1,8 @@
 import { callsStore, mainStore } from './store';
 import { syncMainState, syncPersist } from './persist';
-import { get, Writable } from 'svelte/store';
-import type { Action } from './types/action';
-import type { Storex } from './types/storex';
+import { get } from 'svelte/store';
+import type { Action, Slicer } from './types/action';
+import type { Storex, Value } from './types/storex';
 
 /**
  * @param interceptor
@@ -12,15 +12,11 @@ import type { Storex } from './types/storex';
  */
 export function addReducerAndInterceptors(
 	interceptor: (action: Action) => void | null,
-	reducer: (nextCalled: Action, state: Record<string, unknown>) => Record<string, unknown>,
+	reducer: (nextCalled: Action, state: Value) => Value,
 	name: string,
-	state: Storex,
+	state: Storex<unknown>,
 	persist: boolean | string = false
-): {
-	reset: void;
-	subscribe: Writable<unknown>['subscribe'];
-	destroy: () => void;
-} {
+): Slicer {
 	if (!reducer || !state || !name) return;
 
 	mainStore.update((prevState) => ({
@@ -33,10 +29,11 @@ export function addReducerAndInterceptors(
 			persist
 		}
 	}));
+
 	if (persist) syncMainState(name);
 
-	state.subscribe(() => {
-		syncPersist(name);
+	state.subscribe((value) => {
+		syncPersist(name, value);
 
 		callsStore.update((prevState) => ({
 			...prevState,
@@ -54,7 +51,7 @@ export function addReducerAndInterceptors(
 	};
 
 	return {
-		reset: store[name].state.reset(),
+		reset: store[name].state.reset,
 		subscribe: mainStore.subscribe,
 		destroy
 	};

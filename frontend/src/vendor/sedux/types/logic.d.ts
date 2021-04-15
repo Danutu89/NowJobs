@@ -6,4 +6,5 @@ export interface Logic {
 	interceptor: (action: Action) => void;
 	state: Storex;
 	persist: string | null | boolean;
+	_persistLoaded?: boolean = false;
 }

@@ -1,20 +1,21 @@
 import { get } from 'svelte/store';
 import { mainStore } from './store';
+import type { Value } from './types/storex';
 
-export const syncPersist = (name: string): void => {
-	const { state, persist } = get(mainStore)[name];
+export const syncPersist = (name: string, value: Value): void => {
+	const { persist } = get(mainStore)[name];
 
 	if (!persist) return;
 
 	let persisted;
 
 	if (typeof persist === 'string') {
-		persisted = get(state)[persist];
+		persisted = value[persist];
 		persisted = {
 			value: persisted,
 			_derived: persist
 		};
-	} else persisted = get(state);
+	} else persisted = value;
 
 	localStorage.setItem(name, JSON.stringify(persisted));
 };
@@ -31,12 +32,14 @@ export const syncMainState = (name: string): void => {
 
 	if (typeof get(mainStore)[name].persist === 'string') {
 		const json = JSON.parse(localStorage.getItem(name));
+		console.log(json);
+
 		get(mainStore)[name].state.update((prevState) => ({
 			...prevState,
 			[json._derived]: json.value
 		}));
 	} else {
-		get(mainStore)[name].state.update((prevState) => ({
+		get(mainStore)[name].state.update(() => ({
 			...JSON.parse(localStorage.getItem(name))
 		}));
 	}

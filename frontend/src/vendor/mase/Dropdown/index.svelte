@@ -98,6 +98,7 @@
 
 	dropdown {
 		display: block;
+		position: relative;
 
 		.options {
 			display: none;
@@ -105,9 +106,9 @@
 			margin-top: 0.2rem;
 			background: lighten($color: $background, $amount: 10);
 			border: 1px solid lighten($color: $background, $amount: 20);
+			box-shadow: 0px 3px 6px 2px rgb(0 0 0 / 20%);
 			border-radius: 6px;
-			width: fit-content;
-			width: -moz-fit-content;
+			width: 100%;
 			z-index: 2;
 
 			&.opened {

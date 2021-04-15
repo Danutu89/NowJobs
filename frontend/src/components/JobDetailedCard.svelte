@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Button } from '$vendor/mase';
+	import JobApplyCard from './JobApplyCard.svelte';
 
 	export let job;
 </script>
@@ -46,12 +47,18 @@
 		design or commerce/business or experience equivalent At least 2 years' related industry
 		experience in new media, information technology, communications, or library/information science
 	</div>
-	<hr />
-	<Button
-		styles="padding: 0.6rem 2rem;border-radius: 20px;width: calc(100% - 4rem);"
-		centered
-		color="secondary">Fast Apply</Button
-	>
+
+	{#if false}
+		<hr />
+		<Button
+			styles="padding: 0.6rem 2rem;border-radius: 20px;width: calc(100% - 4rem);"
+			centered
+			color="secondary">Fast Apply</Button
+		>
+	{:else if true}
+		<hr />
+		<JobApplyCard />
+	{/if}
 </div>
 
 <style lang="scss">
@@ -75,8 +82,7 @@
 				flex-flow: column;
 				margin-top: 1rem;
 
-				& > div,
-				& > span {
+				& > div {
 					margin-bottom: 0.4rem;
 				}
 

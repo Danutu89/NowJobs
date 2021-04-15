@@ -1,6 +1,4 @@
 <script lang="ts">
-	import JobsPromoted from '$components/JobsPromoted.svelte';
-
 	import JobsSearch from '$components/JobsSearch.svelte';
 
 	import JobsSidebar from '$components/JobsSidebar.svelte';

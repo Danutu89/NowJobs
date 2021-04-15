@@ -1,10 +1,24 @@
 <script lang="ts">
+	import { getJobs } from '$actions/jobs';
+
+	import { jobsInterceptor } from '$interceptors/jobs';
+	import { jobsReducer } from '$reducers/jobs';
+	import { jobsStore } from '$stores/jobs';
+
 	import type { SearchJob } from '$types/search';
+	import { addReducerAndInterceptors, dispatch } from '$vendor/sedux';
+	import { onMount } from 'svelte';
 
 	import JobsContainer from './JobsContainer.svelte';
 	import SearchNameLocation from './SearchNameLocation.svelte';
 
 	export let filters: SearchJob;
+
+	onMount(() => {
+		addReducerAndInterceptors(jobsInterceptor, jobsReducer, 'jobs', jobsStore);
+
+		dispatch(() => getJobs('jobs'));
+	});
 </script>
 
 <main>
@@ -12,7 +26,7 @@
 	<div class="search-container">
 		<SearchNameLocation location={filters.location} name={filters.name} />
 	</div>
-	<JobsContainer jobs={new Array(10)} />
+	<JobsContainer {...$jobsStore.jobs} />
 </main>
 
 <style lang="scss">

@@ -31,6 +31,7 @@
 			"$interceptors/*": ["src/interceptors/*"],
 			"$vendor/*": ["src/vendor/*"],
 			"$types/*": ["src/types/*"],
+			"$utils/*": ["src/utils/*"],
 			"$app/*": ["node_modules/@sveltejs/kit/assets/runtime/app/*"]
 		}
 	},

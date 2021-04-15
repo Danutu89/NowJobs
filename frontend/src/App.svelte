@@ -1,14 +1,35 @@
-<script>
+<script lang="ts">
 	import Header from '$components/Header.svelte';
-
-	import I18n from '$vendor/i18n/I18n.svelte';
+	import { appInterceptor } from '$interceptors/app';
+	import { appReducer } from '$reducers/app';
+	import { appStore } from '$stores/app';
+	import { I18n } from '$vendor/i18n';
+	import Circle from '$vendor/mase/Spinners/Circle.svelte';
+	import { addReducerAndInterceptors } from '$vendor/sedux';
 	import Sedux from '$vendor/sedux/Sedux.svelte';
+	import type { Slicer } from '$vendor/sedux/types/action';
+	import { onMount } from 'svelte';
+
+	let slicer: Slicer,
+		loaded: boolean = false;
+
+	onMount(() => {
+		slicer = addReducerAndInterceptors(appInterceptor, appReducer, 'app', appStore, 'user');
+
+		slicer.subscribe(({ app }) => {
+			loaded = !!app._persistLoaded;
+		});
+	});
 </script>
 
 <Sedux>
 	<I18n translations={{}}>
-		<Header />
-		<slot />
+		{#if loaded}
+			<Header />
+			<slot />
+		{:else}
+			<Circle />
+		{/if}
 	</I18n>
 </Sedux>
 

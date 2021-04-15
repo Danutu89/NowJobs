@@ -17,9 +17,9 @@ const mainStore: Writable<Record<string, Logic>> = writable({});
 
 const queue: Writable<Queue> = writable(new Queue());
 
-const storex = (initialState: Value): Storex => {
+const storex = <Value>(initialState: Value): Storex<Value> => {
 	const initial = JSON.stringify(initialState);
-	const { subscribe, set, update }: Writable<Value> = writable(initialState);
+	const { subscribe, set, update }: Writable<Value> = writable<Value>(initialState);
 
 	const reset = (): void => {
 		set(JSON.parse(initial));

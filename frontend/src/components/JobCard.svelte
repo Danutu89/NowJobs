@@ -1,29 +1,29 @@
 <script lang="ts">
+	import type { Job } from '$types/jobs';
+
 	import Button from '$vendor/mase/Button.svelte';
 
-	export let job: unknown;
+	export let job: Job;
 </script>
 
 <card>
 	<div class="header">
-		<img
-			src="https://media-exp1.licdn.com/dms/image/C4D0BAQEHS3GdQrCeJQ/company-logo_100_100/0/1593371759344?e=1626307200&v=beta&t=qQRaTIeJGAon9ScM6K6W_Lt93vEXL7vwyjj8U8-8srs"
-			alt="job"
-			width="30px"
-			height="30px"
-		/>
-		<span class="title">Javascript Developer</span>
+		{#if job.owner.icon}
+			<img src={job.owner.icon} alt="job" width="30px" height="30px" />
+		{/if}
+		<a href="/jobs/fdf-5" class="title">{job.title}</a>
+		{#if job.remote}
+			<div class="remote">Remote</div>
+		{/if}
 	</div>
 	<div class="location">
 		icon <span class="name">Iasi, Romania</span>
 	</div>
 	<div class="description">
-		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium, odio beatae quis ullam
-		assumenda repudiandae hic dignissimos aliquam nihil ipsam aliquid quod dolorem, vero consequatur
-		corrupti numquam...
+		{job.description}...
 	</div>
 	<div class="attributes">
-		<span class="category">Web Development</span>
+		<span class="category">{job.category.name}</span>
 	</div>
 	<div class="actions">
 		<Button
@@ -64,6 +64,18 @@
 				margin-left: 0.4rem;
 				font-size: 16px;
 				font-weight: 700;
+				color: $font-color-full;
+			}
+
+			.remote {
+				border-radius: 10px;
+				background: $secondary-color;
+				color: $font-color-on-color;
+				font-weight: 700;
+				font-size: 13px;
+				padding: 0.2rem 0.8rem;
+				width: min-content;
+				margin-inline-start: auto;
 			}
 		}
 

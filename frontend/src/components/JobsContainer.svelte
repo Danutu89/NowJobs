@@ -1,16 +1,18 @@
 <script lang="ts">
+	import type { Job } from '$types/jobs';
+
 	import Circle from '$vendor/mase/Spinners/Circle.svelte';
 	import JobCard from './JobCard.svelte';
 
-	export let jobs: Array<unknown> = [],
+	export let results: Array<Job> = [],
 		loading: boolean,
 		error: string;
 </script>
 
 <container class:loading class:error>
 	{#if !loading}
-		{#if jobs.length > 0}
-			{#each jobs as job}
+		{#if results.length > 0}
+			{#each results as job}
 				<JobCard {job} />
 			{/each}
 		{:else}

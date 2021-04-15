@@ -1,0 +1,89 @@
+version: "3.7"
+networks:
+  nowjobs:
+    name: nowjobs
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 183.11.0.0/16
+          ip_range: 183.11.0.0/24
+          gateway: 183.11.0.1
+services:
+  postgresql:
+    container_name: NowJobs-Postgres
+    image: "bitnami/postgresql:latest"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "postgresql_data:/bitnami/postgresql"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      nowjobs:
+        ipv4_address: 183.11.0.2
+  api:
+    container_name: NowJobs-Django
+    image: nowjobs-api:dev
+    command: "pypy manage.py runserver  0.0.0.0:80"
+    environment:
+      - DEBUG=true
+      - PORT=80
+    ports:
+      - "5000:80"
+    working_dir: /root/api
+    volumes:
+      - "./backend/:/root/api:cached"
+    networks:
+      nowjobs:
+        ipv4_address: 183.11.0.4
+    depends_on:
+      - postgresql
+  frontend:
+    container_name: NowJobs-Svelte
+    image: nowjobs-frontend:dev
+    command: "npm run dev --host"
+    environment:
+      - NODE_ENV=dev
+      - PORT=3000
+    ports:
+      - "3000:3000"
+      - "24678:24678"
+    working_dir: /root/frontend
+    volumes:
+      - "./frontend:/root/frontend:cached"
+    networks:
+      nowjobs:
+        ipv4_address: 183.11.0.9
+    depends_on:
+      - api
+  nginx:
+    container_name: NowJobs-Nginx
+    image: "bitnami/nginx:latest"
+    ports:
+      - "80:8080"
+      - "443:8443"
+    extra_hosts:
+      - "dockerhost:172.24.96.43"
+    environment:
+      - NGINX_HTTP_PORT_NUMBER=8080
+      - NGINX_HTTPS_PORT_NUMBER=8080
+    volumes:
+      - "./nginx/default.conf:/opt/bitnami/nginx/conf/server_blocks/planner.conf:ro"
+      - "./nginx/nginx.conf:/opt/bitnami/nginx/conf/nginx.conf:ro"
+      # - "./nginx/stream.conf:/opt/bitnami/nginx/conf/stream_blocks/stream.conf:ro"
+      - "/etc/nginx/proxy_params:/opt/bitnami/nginx/conf/proxy_params:ro"
+    networks:
+      nowjobs:
+        ipv4_address: 183.11.0.7
+    links:
+      - "api:api"
+      - "frontend:frontend"
+    depends_on:
+      - postgresql
+      - api
+      - frontend
+volumes:
+  redis_data:
+    driver: local
+  postgresql_data:
+    driver: local

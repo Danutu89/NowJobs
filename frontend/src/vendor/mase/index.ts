@@ -3,6 +3,8 @@ export { default as Icon } from './Icon.svelte';
 export { default as Popup } from './Popup.svelte';
 export { default as Draw } from './Draw.svelte';
 export { default as Button } from './Button.svelte';
+export { default as TextArea } from './TextArea.svelte';
+export { default as Modal } from './Modal.svelte';
 export * from './Dropdown/index';
 export * from './List/index';
 export * from './Tab/index';

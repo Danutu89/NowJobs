@@ -6,8 +6,8 @@
 		autofocus: boolean = false,
 		type: string = 'text',
 		maxlength: number = 100,
-		label: boolean = false,
-		pattern: string = null,
+		label: string = '',
+		pattern: RegExp = null,
 		error: string | boolean = false,
 		mirrors: string | null = null,
 		disabled: boolean = false,
@@ -39,32 +39,34 @@
 	}
 </script>
 
-{#if label}
-	<label for={element}>{label}</label>
-{/if}
-<input
-	class:error
-	class:disabled
-	class:fluid
-	class:trasparent
-	{name}
-	{placeholder}
-	bind:value
-	on:change
-	on:input
-	bind:this={element}
-	{maxlength}
-	{disabled}
-	{autocomplete}
-	class:borderless
-	style="font-size: {size};{style}"
-/>
-{#if error && pattern}
-	<label class="error" for={element}>Respect the format.</label>
-{/if}
-{#if mirrors && error}
-	<label class="error" for={element}>Fields doesn`t match.</label>
-{/if}
+<div style="width: 100%">
+	{#if label}
+		<label for={element}>{label}</label>
+	{/if}
+	{#if error && pattern}
+		<label class="error" for={element}>Respect the format.</label>
+	{/if}
+	{#if mirrors && error}
+		<label class="error" for={element}>Fields doesn`t match.</label>
+	{/if}
+	<input
+		class:error
+		class:disabled
+		class:fluid
+		class:trasparent
+		{name}
+		{placeholder}
+		bind:value
+		on:change
+		on:input
+		bind:this={element}
+		{maxlength}
+		{disabled}
+		{autocomplete}
+		class:borderless
+		style="font-size: {size};{style}"
+	/>
+</div>
 
 <style lang="scss">
 	@import './globals.scss';
@@ -75,7 +77,8 @@
 
 		&.error {
 			color: darken($color: red, $amount: 10);
-			margin-top: 0.1rem;
+			position: absolute;
+			margin-top: -0.9rem;
 		}
 	}
 	input {

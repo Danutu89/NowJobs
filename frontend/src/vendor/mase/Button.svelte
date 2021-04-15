@@ -56,6 +56,7 @@
 		&.centered {
 			text-align: center;
 			place-content: center;
+			text-align: -webkit-center;
 		}
 
 		&.fluid {

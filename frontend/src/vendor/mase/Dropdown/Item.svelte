@@ -47,7 +47,7 @@
 		}
 
 		&:hover {
-			background: lighten($color: $background, $amount: 20);
+			background: $background;
 		}
 
 		&.border:first-child {

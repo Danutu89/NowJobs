@@ -9,7 +9,7 @@
 	let unsubscribeCalls: Unsubscriber | null = null;
 
 	onMount(() => {
-		initDevTools();
+		if (dev) initDevTools();
 
 		unsubscribeCalls = callsStore.subscribe((value) => {
 			if (dev && value.nextCalled) actionsLogger(value);
