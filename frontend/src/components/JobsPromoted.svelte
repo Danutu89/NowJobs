@@ -42,6 +42,10 @@
 			font-size: 1.3rem;
 		}
 
+		@media screen and (max-width: 750px) {
+			width: calc(100% - 3rem);
+		}
+
 		.list {
 			display: grid;
 			grid-auto-flow: row;

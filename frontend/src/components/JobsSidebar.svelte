@@ -1,62 +1,117 @@
 <script lang="ts">
-	import type { SearchJob } from '$types/search';
+	import { getJobs } from '$actions/jobs';
 
-	import { Select } from '$vendor/mase';
+	import type { Filters } from '$types/jobs';
+	import Button from '$vendor/mase/Button.svelte';
+	import MediaQuery from '$vendor/mase/utils/MediaQuery.svelte';
 
-	export let filters: SearchJob;
+	import { dispatch } from '$vendor/sedux';
+	import CategorySelect from './CategorySelect.svelte';
+	import CompanySelect from './CompanySelect.svelte';
+	import DomainSelect from './DomainSelect.svelte';
+
+	export let filters: Filters;
+	export let opened: boolean = true;
+
+	const handleChange = () => {
+		dispatch(() => getJobs(filters, 'jobs'));
+	};
+
+	const getCreatedOnDate = (days: number): string => {
+		const date = new Date();
+		date.setUTCDate(date.getUTCDate() - days);
+		date.setUTCHours(0);
+		date.setUTCMinutes(0);
+		date.setUTCSeconds(0);
+		date.setUTCMilliseconds(0);
+
+		return date.toISOString();
+	};
 </script>
 
-<sidebar>
+<sidebar class:opened>
 	<span class="header"> Filters </span>
 	<div class="filter">
 		<span>Company</span>
-		<Select
-			options={[
-				{ value: 1, text: 'danutu' },
-				{ value: 2, text: 'ionut' }
-			]}
-			placeholder="Search"
-			bind:value={filters.company}
-		/>
+		<CompanySelect bind:value={filters.company} on:select={handleChange} />
 	</div>
 	<div class="filter">
 		<span>Domain</span>
-		<Select
-			options={[
-				{ value: 1, text: 'danutu' },
-				{ value: 2, text: 'ionut' }
-			]}
-			placeholder="Search"
-			bind:value={filters.domain}
-		/>
+		<DomainSelect bind:value={filters.domain} on:select={handleChange} />
+	</div>
+	<div class="filter">
+		<span>Category</span>
+		<CategorySelect bind:value={filters.category} on:select={handleChange} />
 	</div>
 	<div class="filter">
 		<span>Date of posting</span>
 		<div class="radio">
-			<input id="radio-1" name="radio" type="radio" />
+			<input
+				id="radio-1"
+				bind:group={filters.created_on}
+				value={getCreatedOnDate(1)}
+				on:change={handleChange}
+				name="radio"
+				type="radio"
+			/>
 			<label for="radio-1" class="radio-label">Last day</label>
 		</div>
 		<div class="radio">
-			<input id="radio-2" name="radio" type="radio" />
-			<label for="radio-2" class="radio-label">Last two days</label>
+			<input
+				id="radio-2"
+				bind:group={filters.created_on}
+				value={getCreatedOnDate(7)}
+				on:change={handleChange}
+				name="radio"
+				type="radio"
+			/>
+			<label for="radio-2" class="radio-label">Last week</label>
 		</div>
 		<div class="radio">
-			<input id="radio-3" name="radio" type="radio" />
-			<label for="radio-3" class="radio-label">Last week</label>
+			<input
+				id="radio-3"
+				bind:group={filters.created_on}
+				value={getCreatedOnDate(30)}
+				on:change={handleChange}
+				name="radio"
+				type="radio"
+			/>
+			<label for="radio-3" class="radio-label">Last month</label>
 		</div>
 		<div class="radio">
-			<input id="radio-4" name="radio" type="radio" />
-			<label for="radio-4" class="radio-label">Last month</label>
+			<input
+				id="radio-4"
+				bind:group={filters.created_on}
+				value={getCreatedOnDate(60)}
+				on:change={handleChange}
+				name="radio"
+				type="radio"
+			/>
+			<label for="radio-4" class="radio-label">Last 2 months</label>
 		</div>
 	</div>
 	<div class="filter">
 		<span>Location</span>
 		<div class="radio">
-			<input id="radio-11" name="location" type="radio" />
+			<input
+				id="radio-11"
+				bind:group={filters.remote}
+				on:change={handleChange}
+				name="location"
+				type="radio"
+				value="null"
+			/>
 			<label for="radio-11" class="radio-label">Any</label>
 		</div>
 		<div class="radio">
-			<input id="radio-12" name="location" type="radio" />
+			<input
+				id="radio-12"
+				bind:group={filters.remote}
+				on:change={handleChange}
+				name="location"
+				type="radio"
+				value="true"
+			/>
 			<label for="radio-12" class="radio-label">Remote</label>
 		</div>
 	</div>
@@ -74,7 +129,29 @@
 		position: -webkit-sticky;
 		position: sticky;
 		top: 50px;
-		padding: 1rem;
+		z-index: 2;
+		max-height: 0px;
+		overflow: hidden visible;
+
+		@media screen and (max-width: 860px) {
+			position: initial;
+			width: calc(100% - 4rem);
+			background: $background-secondary;
+			border-radius: 10px;
+			height: fit-content;
+			padding-right: 0;
+			max-height: 0px;
+		}
+
+		&.opened {
+			max-height: 9999px;
+			padding: 1rem;
+
+			@media screen and (max-width: 860px) {
+				margin-left: 1rem;
+				margin-top: 1rem;
+			}
+		}
 
 		.header {
 			font-weight: 700;
@@ -84,6 +161,10 @@
 			margin-inline-start: 0px;
 			margin-inline-end: 0px;
 			font-weight: bold;
+
+			@media screen and (max-width: 860px) {
+				display: none;
+			}
 		}
 
 		.filter {

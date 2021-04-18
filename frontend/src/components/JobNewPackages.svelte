@@ -51,11 +51,23 @@
 			font-size: 1.3rem;
 		}
 
+		@media screen and (max-width: 1280px) {
+			width: calc(100% - 3rem);
+		}
+
 		.list {
 			display: grid;
 			grid-auto-flow: row;
 			gap: 0.4rem;
 			min-height: 100px;
+
+			@media screen and (max-width: 1280px) {
+				grid-auto-flow: column;
+			}
+
+			@media screen and (max-width: 860px) {
+				grid-auto-flow: row;
+			}
 
 			&.error,
 			&.loading {

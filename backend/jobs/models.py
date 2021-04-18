@@ -1,9 +1,10 @@
 from django.db import models
+from shortuuidfield import ShortUUIDField
 
 # Create your models here.
 class Job(models.Model):
 
-    id = models.AutoField(primary_key=True)
+    id = ShortUUIDField(primary_key=True)
     title = models.CharField(max_length=200)
     salary = models.DecimalField(decimal_places=2, max_digits=8, blank=True, null=True)
     remote = models.BooleanField(default=False)
@@ -22,6 +23,9 @@ class Job(models.Model):
 
     def get_preview(self):
         return self.description[:60]
+
+    def get_link(self):
+        return "/jobs/" + (str(self.id))
 
     def has_object_read_permission(self, request):
         return True
@@ -51,7 +55,7 @@ class Job(models.Model):
 
 class Offer(models.Model):
 
-    id = models.AutoField(primary_key=True)
+    id = ShortUUIDField(primary_key=True)
     job = models.ForeignKey("jobs.Job", on_delete=models.CASCADE, related_name="offers")
     email = models.EmailField()
     first_name = models.CharField(max_length=50)
@@ -59,11 +63,16 @@ class Offer(models.Model):
     cv = models.FileField(upload_to="jobs/cv")
     description = models.TextField()
     phone = models.CharField(max_length=20)
+    opened = models.BooleanField(default=False)
 
     def has_object_read_permission(self, request):
-        return True
+        if not request.user.is_authenticated:
+            return False
+        return request.user.email == self.job.owner.user.email
 
     def has_object_write_permission(self, request):
+        if not request.user.is_authenticated:
+            return False
         return request.user.email == self.email
 
     @staticmethod
@@ -88,7 +97,7 @@ class Offer(models.Model):
 
 class Domain(models.Model):
 
-    id = models.AutoField(primary_key=True)
+    id = ShortUUIDField(primary_key=True)
     name = models.CharField(max_length=40)
 
     def __str__(self):
@@ -101,7 +110,7 @@ class Domain(models.Model):
 
 class Category(models.Model):
 
-    id = models.AutoField(primary_key=True)
+    id = ShortUUIDField(primary_key=True)
     name = models.CharField(max_length=40)
     domain = models.ForeignKey(
         "jobs.Domain", on_delete=models.CASCADE, related_name="categories"

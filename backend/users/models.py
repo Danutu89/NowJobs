@@ -3,10 +3,11 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     UserManager,
 )
+from shortuuidfield import ShortUUIDField
 
 
 class User(AbstractBaseUser):
-    id = models.AutoField(primary_key=True)
+    id = ShortUUIDField(primary_key=True)
     email = models.EmailField(max_length=255, unique=True, blank=False, null=False)
     username = models.CharField(max_length=255, unique=True, blank=False, null=False)
     first_name = models.CharField(max_length=255, unique=False)
@@ -87,7 +88,7 @@ class User(AbstractBaseUser):
 
 class Company(models.Model):
 
-    id = models.AutoField(primary_key=True)
+    id = ShortUUIDField(primary_key=True)
     name = models.CharField(max_length=100)
     icon = models.ImageField(upload_to="companies/icons", blank=True, null=True)
     user = models.ForeignKey(
@@ -124,7 +125,7 @@ class Company(models.Model):
 
 class Applicant(models.Model):
 
-    id = models.AutoField(primary_key=True)
+    id = ShortUUIDField(primary_key=True)
     cv = models.FileField(upload_to="applicants/cv", blank=True, null=True)
     phone = models.CharField(max_length=20)
     first_name = models.CharField(max_length=40)

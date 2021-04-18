@@ -7,9 +7,9 @@ import { getJobsFailed, getMoreJobsFailed, gotJobs, gotMoreJobs } from '$actions
 import { GET_JOBS, GET_MORE_JOBS } from '$constants/jobs';
 import type { Job } from '$types/jobs';
 
-const getJobs = async ({ name }: GetJobs): Promise<void> => {
+const getJobs = async ({ filters, name }: GetJobs): Promise<void> => {
 	try {
-		const res = await request.get('/api/jobs/');
+		const res = await request.get('/api/jobs/', filters);
 		const json: PaginatedResponse<Job> = await res.json();
 		if (res.status !== 200) {
 			let error = '';
@@ -23,17 +23,17 @@ const getJobs = async ({ name }: GetJobs): Promise<void> => {
 				error = json[key][0];
 			}
 
-			return dispatch(() => getJobsFailed(error, name));
+			return dispatch(() => getJobsFailed({ status: res.status, message: error }, name));
 		}
 		return dispatch(() => gotJobs(json, name));
 	} catch (error) {
-		return dispatch(() => getJobsFailed(error, name));
+		return dispatch(() => getJobsFailed({ status: 500, message: error }, name));
 	}
 };
 
-const getMoreJobs = async ({ page, name }: GetMoreJobs): Promise<void> => {
+const getMoreJobs = async ({ filters, page, name }: GetMoreJobs): Promise<void> => {
 	try {
-		const res = await request.get(`/api/jobs/?page=${page}`);
+		const res = await request.get(`/api/jobs/?page=${page}`, filters);
 		const json: PaginatedResponse<Job> = await res.json();
 		if (res.status !== 200) {
 			let error = '';
@@ -41,17 +41,17 @@ const getMoreJobs = async ({ page, name }: GetMoreJobs): Promise<void> => {
 			if (json.non_field_errors) {
 				error = json.non_field_errors[0];
 			} else if (json.details) {
-				error = json.details[0];
+				error = json.details;
 			} else {
 				const key = Object.keys(json)[0];
 				error = json[key][0];
 			}
 
-			return dispatch(() => getMoreJobsFailed(error, name));
+			return dispatch(() => getMoreJobsFailed({ status: res.status, message: error }, name));
 		}
 		return dispatch(() => gotMoreJobs(json, page, name));
 	} catch (error) {
-		return dispatch(() => getMoreJobsFailed(error, name));
+		return dispatch(() => getMoreJobsFailed({ status: 500, message: error }, name));
 	}
 };
 

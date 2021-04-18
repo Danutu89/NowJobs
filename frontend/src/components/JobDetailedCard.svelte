@@ -1,63 +1,51 @@
 <script lang="ts">
+	import type { Job } from '$types/job';
+
 	import { Button } from '$vendor/mase';
+	import Circle from '$vendor/mase/Spinners/Circle.svelte';
+	import Error from '../routes/$error.svelte';
 	import JobApplyCard from './JobApplyCard.svelte';
 
-	export let job;
+	export let loading: boolean = true,
+		result: Job | Record<string, unknown>,
+		error: {
+			status: number;
+			message: string;
+		};
 </script>
 
-<div class="card">
-	<div class="header">
-		<h1 class="title">Full Stack Developer</h1>
+<div class="card" class:loading class:error={error.status !== 200}>
+	{#if loading && error.status === 200}
+		<Circle color="#258cf4" size={30} />
+	{:else if !loading && error.status !== 200}
+		<Error status={error.status} {error} />
+	{:else if !loading && error.status === 200}
+		<div class="header">
+			<h1 class="title">{result.title}</h1>
 
-		<div class="details">
-			<div class="location">icon Iasi,Romania</div>
-			<div class="remote">Remote</div>
+			<div class="details">
+				<div class="location">icon Iasi,Romania</div>
+				{#if result.remote}
+					<div class="remote">Remote</div>
+				{/if}
+			</div>
 		</div>
-	</div>
-	<hr />
-	<div class="description">
-		UI / UX front end Developer independent contractor (Remote-friendly) Apply to join our community
-		of highly skilled independent contractors. EASE Defined: Entrepreneurs, Adopting, To Serve, Each
-		Other EASE offers A predictive freelance management system that gives organizations access to a
-		tailored and screened pool of on-demand remote talent. Job Description: Overall Purpose UX/UI
-		designer is responsible for creating user interfaces. This position will be the center of our
-		design process and ensure that we create the best customer experience. Responsibilities:
-		Participate in the analysis of user research and translate abstract ideas and requirements into
-		tangible artifacts such as journey maps, user personas, empathy maps, storyboards, and relevant
-		assessment deliverables. Collaborate with Designers, Product Managers, Engineers, and
-		Stakeholders to ideate strategize and brainstorm ideas. Create visualizations, site maps, user
-		flows, wireframes, low- to high-fidelity mockups, and prototypes; and iterate on designs based
-		on stakeholder, user, and customer feedback. Manage projects independently throughout the scope
-		of the project. Support multiple projects simultaneously while meeting tight deadlines. Keep up
-		with emerging technologies and industry standards for UI/UX design and it's methods. Maintain a
-		high level of aesthetic details and production quality that reflect brand guidelines. Keep track
-		of evolving UI components, design patterns, and other artifacts to maintain ACR Design System
-		up-to-date. Requirements : Front-end Code development HTML-CSS-Java Script Expert at building
-		consensus and driving forward motion Expert communicator - able to inspire and sell a vision
-		Experience applying research and analysis to site development Proven interpersonal skills,
-		client relation skills and ability to work in a team environment Proven creative thinking and
-		problem-solving skills Proven understanding of and experience with: user-centered design
-		techniques; development of organizational/structural concepts; project processes for the
-		development of large scale projects; documentation requirements for development teams;
-		application of content management, personalization, targeting and searching systems Thorough,
-		detail-oriented and highly organized, including the ability to multi-task and meet tight
-		deadlines Preferably, experience with: software development process/business analysis; user
-		research, usability practices, and testing Bachelor's degree preferred, with multidisciplinary
-		backgrounds such as psychology, computer science, information sciences, human/computer interface
-		design or commerce/business or experience equivalent At least 2 years' related industry
-		experience in new media, information technology, communications, or library/information science
-	</div>
+		<hr />
+		<div class="description">
+			{result.description}
+		</div>
 
-	{#if false}
-		<hr />
-		<Button
-			styles="padding: 0.6rem 2rem;border-radius: 20px;width: calc(100% - 4rem);"
-			centered
-			color="secondary">Fast Apply</Button
-		>
-	{:else if true}
-		<hr />
-		<JobApplyCard />
+		{#if false}
+			<hr />
+			<Button
+				styles="padding: 0.6rem 2rem;border-radius: 20px;width: calc(100% - 4rem);"
+				centered
+				color="secondary">Fast Apply</Button
+			>
+		{:else if true}
+			<hr />
+			<JobApplyCard />
+		{/if}
 	{/if}
 </div>
 
@@ -71,6 +59,29 @@
 		border-radius: 10px;
 		border: 1px solid darken($color: $background, $amount: 5);
 		padding: 1rem 2rem;
+		height: min-content;
+
+		@media screen and (max-width: 1280px) {
+			width: calc(100% - 350px - 4rem);
+		}
+
+		@media screen and (max-width: 860px) {
+			width: calc(100% - 4rem);
+			margin-right: 0;
+		}
+
+		@media screen and (max-width: 680px) {
+			margin: auto;
+			width: calc(100% - 4rem);
+		}
+
+		&.loading,
+		&.error {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: auto;
+		}
 
 		.header {
 			.title {
@@ -101,6 +112,11 @@
 				}
 			}
 		}
+
+		.description {
+			overflow-wrap: break-word;
+		}
+
 		hr {
 			border: 1px solid darken($color: $background, $amount: 5);
 			width: calc(100% + 4rem);

@@ -5,13 +5,22 @@
 	import { page } from '$app/stores';
 	import LoginModal from './LoginModal.svelte';
 	import { Item as DropdownItem } from '$vendor/mase/Dropdown';
+	import MediaQuery from '$vendor/mase/utils/MediaQuery.svelte';
+	import { dispatch } from '$vendor/sedux';
+	import { logout } from '$actions/app';
+	import { goto } from '$app/navigation';
 
-	let loginOpened: boolean = false,
-		accountOptions: Array<{ value: string; text: string }> = [
-			{ value: 'jobs', text: 'Jobs' },
-			{ value: 'account', text: 'Account' },
-			{ value: 'logout', text: 'Logout' }
-		];
+	let loginOpened: boolean = false;
+
+	const handleLogout = (): void => {
+		dispatch(() => logout('app'));
+	};
+
+	const accountOptions: Array<{ value: string; text: string; callback?: () => void }> = [
+		{ value: 'jobs', text: 'Jobs', callback: () => goto('/jobs') },
+		{ value: 'account', text: 'Account' },
+		{ value: 'logout', text: 'Logout', callback: handleLogout }
+	];
 
 	const handleLoginOpen = (): void => {
 		loginOpened = true;
@@ -26,8 +35,12 @@
 	<Item logo link to="/">NowJobs</Item>
 
 	<Group dir="right">
-		<Item link to="/" selected={$page.path === '/'}>Home</Item>
-		<Item>Contact</Item>
+		<MediaQuery query="(min-width: 900px)" let:matches>
+			{#if matches}
+				<Item link to="/" selected={$page.path === '/'}>Home</Item>
+				<Item>Contact</Item>
+			{/if}
+		</MediaQuery>
 		<Item link to="/jobs" selected={$page.path === '/jobs'}>Jobs</Item>
 		{#if !$appStore.user.loggedIn}
 			<Item>

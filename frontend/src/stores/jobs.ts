@@ -4,7 +4,10 @@ import type { State } from '$types/jobs';
 export const initialState = {
 	jobs: {
 		results: [],
-		error: '',
+		error: {
+			status: 200,
+			message: ''
+		},
 		count: 0,
 		page: 1,
 		next: '',
@@ -12,7 +15,10 @@ export const initialState = {
 	},
 	more: {
 		loading: false,
-		error: ''
+		error: {
+			status: 200,
+			message: ''
+		}
 	}
 } as State;
 

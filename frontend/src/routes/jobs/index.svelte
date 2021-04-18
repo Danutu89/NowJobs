@@ -2,18 +2,18 @@
 	import JobsSearch from '$components/JobsSearch.svelte';
 
 	import JobsSidebar from '$components/JobsSidebar.svelte';
-	import type { SearchJob } from '$types/search';
+	import type { Filters } from '$types/jobs';
+	import MediaQuery from '$vendor/mase/utils/MediaQuery.svelte';
 
-	let filters = {
-		name: '',
-		location: -1,
-		company: -1,
-		domain: -1
-	} as SearchJob;
+	let filters = {} as Filters;
 </script>
 
 <main>
-	<JobsSidebar {filters} />
+	<MediaQuery query="(min-width: 860px)" let:matches>
+		{#if matches}
+			<JobsSidebar {filters} />
+		{/if}
+	</MediaQuery>
 	<JobsSearch {filters} />
 </main>
 
@@ -21,5 +21,10 @@
 	main {
 		display: flex;
 		flex-flow: row;
+
+		@media screen and (max-width: 860px) {
+			flex-flow: column;
+			width: calc(100% - 1rem);
+		}
 	}
 </style>

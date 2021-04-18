@@ -10,7 +10,7 @@
 	</h1>
 
 	{#if dev}
-		{error.message}
+		{error?.message}
 	{/if}
 </div>
 

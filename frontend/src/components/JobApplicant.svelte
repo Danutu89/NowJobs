@@ -1,12 +1,14 @@
 <script lang="ts">
+	import type { Applicant } from '$types/applicants';
+
 	import { createEventDispatcher } from 'svelte';
 
-	export let applicant;
+	export let applicant: Applicant;
 
 	const dispatch = createEventDispatcher();
 
 	const handleApplicantClick = () => {
-		dispatch('select', applicant?.id);
+		dispatch('select', applicant.id);
 	};
 </script>
 
@@ -24,6 +26,7 @@
 		padding: 1rem;
 		border-radius: 10px;
 		cursor: pointer;
+		height: min-content;
 
 		&:hover {
 			background: $background;

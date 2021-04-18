@@ -1,8 +1,9 @@
 import type { Action } from '$vendor/sedux/types/action';
-import type { Job } from './state';
+import type { Filters, Job } from './state';
 
 export interface GetJobs extends Action {
 	name: string;
+	filters: Filters;
 }
 
 export interface GotJobs extends Action {
@@ -12,11 +13,15 @@ export interface GotJobs extends Action {
 }
 
 export interface GetJobsFailed extends Action {
-	error: string;
+	error: {
+		status: number;
+		message: string;
+	};
 }
 
 export interface GetMoreJobs extends Action {
 	page: number;
+	filters: Filters;
 }
 
 export interface GotMoreJobs extends Action {
@@ -27,5 +32,8 @@ export interface GotMoreJobs extends Action {
 }
 
 export interface GetMoreJobsFailed extends Action {
-	error: string;
+	error: {
+		status: number;
+		message: string;
+	};
 }

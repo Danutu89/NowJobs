@@ -2,45 +2,75 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
+import shortuuidfield.fields
 
 
 class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Job',
+            name="Job",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('title', models.CharField(max_length=200)),
-                ('salary', models.DecimalField(blank=True, decimal_places=2, max_digits=2, null=True)),
-                ('remote', models.BooleanField(default=False)),
-                ('description', models.TextField()),
+                (
+                    "id",
+                    shortuuidfield.fields.ShortUUIDField(
+                        blank=True,
+                        editable=False,
+                        max_length=22,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("title", models.CharField(max_length=200)),
+                (
+                    "salary",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=2, null=True
+                    ),
+                ),
+                ("remote", models.BooleanField(default=False)),
+                ("description", models.TextField()),
             ],
             options={
-                'verbose_name': 'Job',
-                'verbose_name_plural': 'Jobs',
+                "verbose_name": "Job",
+                "verbose_name_plural": "Jobs",
             },
         ),
         migrations.CreateModel(
-            name='Offer',
+            name="Offer",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('email', models.EmailField(max_length=254)),
-                ('first_name', models.CharField(max_length=50)),
-                ('last_name', models.CharField(max_length=50)),
-                ('cv', models.FileField(upload_to='jobs/cv')),
-                ('descriptiob', models.TextField()),
-                ('phone', models.CharField(max_length=20)),
-                ('job', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='offers', to='jobs.job')),
+                (
+                    "id",
+                    shortuuidfield.fields.ShortUUIDField(
+                        blank=True,
+                        editable=False,
+                        max_length=22,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("email", models.EmailField(max_length=254)),
+                ("first_name", models.CharField(max_length=50)),
+                ("last_name", models.CharField(max_length=50)),
+                ("cv", models.FileField(upload_to="jobs/cv")),
+                ("descriptiob", models.TextField()),
+                ("phone", models.CharField(max_length=20)),
+                (
+                    "job",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="offers",
+                        to="jobs.job",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Offer',
-                'verbose_name_plural': 'Offers',
+                "verbose_name": "Offer",
+                "verbose_name_plural": "Offers",
             },
         ),
     ]

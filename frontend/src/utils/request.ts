@@ -57,9 +57,9 @@ const jsonRequest = {
 		};
 		if (jsonRequest.logger)
 			jsonRequest.logger(new Date().toISOString(), 'request', settings.method, logDomain, logUrl);
-		return fetch(url, settings).then(toJson);
+		return fetch(url, settings);
 	},
-	get: (url: string, params?: string, options?: any) =>
+	get: (url: string, params?: any, options?: any) =>
 		jsonRequest.request('GET', url, params, options),
 	post: (url: string, resource?: any, options?: any) =>
 		jsonRequest.request('POST', url, resource, options),

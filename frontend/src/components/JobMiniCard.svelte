@@ -27,6 +27,15 @@
 		align-items: center;
 		padding: 0.4rem 0;
 
+		img {
+			border-radius: 60px;
+
+			@media screen and (max-width: 750px) {
+				height: 40px;
+				width: 40px;
+			}
+		}
+
 		.info {
 			display: flex;
 			flex-flow: column;
@@ -37,6 +46,10 @@
 			.title {
 				color: $font-color-full;
 				text-decoration: underline;
+
+				@media screen and (max-width: 750px) {
+					font-size: 16px;
+				}
 			}
 
 			.location {

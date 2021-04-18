@@ -9,6 +9,7 @@ class DomainSerializer(serializers.ModelSerializer):
         model = Domain
         fields = [
             "name",
+            "id",
         ]
 
 
@@ -17,27 +18,73 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = [
             "name",
+            "id",
         ]
+
+
+class OfferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Offer
+        fields = ["email", "first_name", "last_name", "opened", "id"]
+
+
+class OfferDetailedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Offer
+        fields = ["email", "first_name", "last_name", "description", "cv", "phone"]
 
 
 class JobDetailedSerializer(serializers.ModelSerializer):
     domain = DomainSerializer(many=False)
     category = CategorySerializer(many=False)
-    company = CompanySerializer(many=False)
-    permisions = DRYPermissionsField()
+    owner = CompanySerializer(many=False)
+    permissions = DRYPermissionsField()
+    applied = serializers.SerializerMethodField()
+    offer = serializers.SerializerMethodField()
 
     class Meta:
         model = Job
         fields = [
             "permissions",
-            "company",
+            "owner",
             "remote",
             "salary",
             "seats",
+            "domain",
+            "category",
             "created_on",
             "description",
             "title",
+            "applied",
+            "offer",
         ]
+
+    def get_applied(self, obj):
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+
+        if not user.is_authenticated:
+            return False
+
+        return (
+            Offer.objects.filter(job=obj.id).filter(email=user.email).first()
+            is not None
+        )
+
+    def get_offer(self, obj):
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+
+        if not user.is_authenticated:
+            return None
+
+        return OfferSerializer(
+            Offer.objects.filter(job=obj.id).filter(email=user.email).first()
+        ).data
 
 
 class JobSerializer(serializers.ModelSerializer):
@@ -46,6 +93,7 @@ class JobSerializer(serializers.ModelSerializer):
     owner = CompanySerializer(many=False)
     permissions = DRYPermissionsField()
     description = serializers.CharField(source="get_preview")
+    link = serializers.CharField(source="get_link")
 
     class Meta:
         model = Job
@@ -59,16 +107,5 @@ class JobSerializer(serializers.ModelSerializer):
             "category",
             "permissions",
             "title",
+            "link",
         ]
-
-
-class OfferSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Offer
-        fields = ["email", "first_name", "last_name"]
-
-
-class OfferDetailedSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Offer
-        fields = ["email", "first_name", "last_name", "description", "cv"]

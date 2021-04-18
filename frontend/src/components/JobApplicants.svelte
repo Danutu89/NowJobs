@@ -1,42 +1,71 @@
 <script lang="ts">
+	import { getApplicants } from '$actions/applicants';
+	import { page } from '$app/stores';
+
+	import { applicantsInterceptor } from '$interceptors/applicants';
+	import { applicantsReducer } from '$reducers/applicants';
+	import { applicantsStore } from '$stores/applicants';
+
 	import Circle from '$vendor/mase/Spinners/Circle.svelte';
+	import { addReducerAndInterceptors, dispatch } from '$vendor/sedux';
+	import type { Slicer } from '$vendor/sedux/types/action';
+	import { onMount } from 'svelte';
 	import ApplicantModal from './ApplicantModal.svelte';
 	import JobApplicant from './JobApplicant.svelte';
 
-	export let applicants: Array<any> = new Array(20),
-		loading: boolean = false,
-		error: string = '';
-
-	let selectedApplicant: number = -1;
+	let selectedApplicant: string = '',
+		slicer: Slicer,
+		loaded: boolean = false;
 
 	const handleApplicantSelect = ({ detail }): void => {
-		selectedApplicant = 1;
+		selectedApplicant = detail;
 	};
 
 	const handleApplicantModalClose = (): void => {
-		selectedApplicant = -1;
+		selectedApplicant = '';
 	};
+
+	onMount(() => {
+		slicer = addReducerAndInterceptors(
+			applicantsInterceptor,
+			applicantsReducer,
+			'applicants',
+			applicantsStore
+		);
+
+		slicer.subscribe(({ applicants }) => {
+			loaded = !!applicants;
+		});
+
+		dispatch(() => getApplicants($page.params.id, 'applicants'));
+	});
 </script>
 
 <div class="applicants">
 	<h2>Applicants</h2>
-	<div class="list" class:loading class:error>
-		{#if !loading}
-			{#if applicants.length > 0}
-				{#each applicants as applicant}
+	<div
+		class="list"
+		class:loading={$applicantsStore.applicants.loading}
+		class:error={$applicantsStore.applicants.error.status !== 200}
+	>
+		{#if !$applicantsStore.applicants.loading}
+			{#if $applicantsStore.applicants.results.length > 0}
+				{#each $applicantsStore.applicants.results as applicant}
 					<JobApplicant {applicant} on:select={handleApplicantSelect} />
 				{/each}
 			{:else}
 				No Applicants
 			{/if}
-		{:else if loading}
+		{:else if $applicantsStore.applicants.loading}
 			<Circle color="#258cf4" size={30} />
-		{:else if !loading && error}
-			{error}
+		{:else if !$applicantsStore.applicants.loading && $applicantsStore.applicants.error.status !== 200}
+			{$applicantsStore.applicants.error.message}
 		{/if}
 	</div>
 </div>
-<ApplicantModal applicant={selectedApplicant} on:close={handleApplicantModalClose} />
+{#if loaded}
+	<ApplicantModal applicant={selectedApplicant} on:close={handleApplicantModalClose} />
+{/if}
 
 <style lang="scss">
 	@import '../src/vendor/mase/globals.scss';
@@ -48,6 +77,11 @@
 		padding: 1.5rem;
 		height: min-content;
 		width: 300px;
+
+		@media screen and (max-width: 860px) {
+			margin-top: 1rem;
+			width: calc(100% - 3rem);
+		}
 
 		::-webkit-scrollbar {
 			width: 5px;

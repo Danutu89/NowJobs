@@ -19,7 +19,7 @@
 			color="secondary">Add CV</Button
 		>
 		<Button
-			styles="padding: 0.6rem 2rem;border-radius: 20px;width: calc(100% - 4rem);margin-left: 0.8rem;"
+			styles="padding: 0.6rem 2rem;border-radius: 20px;width: calc(100% - 4rem);"
 			centered
 			color="secondary">Apply</Button
 		>
@@ -34,9 +34,14 @@
 		flex-flow: column;
 
 		.group {
-			display: flex;
-			flex-flow: row;
+			display: grid;
+			grid-auto-flow: column;
+			grid-gap: 1rem 1rem;
 			margin-top: 0.8rem;
+
+			@media screen and (max-width: 750px) {
+				grid-auto-flow: row;
+			}
 		}
 	}
 </style>

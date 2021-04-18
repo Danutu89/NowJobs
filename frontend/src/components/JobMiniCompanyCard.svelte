@@ -46,6 +46,10 @@
 		height: min-content;
 		width: 250px;
 
+		@media screen and (max-width: 750px) {
+			width: calc(100% - 3rem);
+		}
+
 		h2 {
 			font-size: 1.3rem;
 			margin-top: 0;
@@ -68,6 +72,10 @@
 				flex-flow: row;
 				align-items: center;
 
+				@media screen and (max-width: 750px) {
+					flex-flow: column;
+				}
+
 				img {
 					border-radius: 40px;
 				}
@@ -76,6 +84,12 @@
 					margin-left: 0.8rem;
 					font-size: 16px;
 					font-weight: 700;
+
+					@media screen and (max-width: 750px) {
+						margin-left: 0;
+						margin-top: 1rem;
+						font-size: 20px;
+					}
 				}
 			}
 
@@ -87,6 +101,10 @@
 				.location {
 					color: $font-color;
 					font-size: 14px;
+
+					@media screen and (max-width: 750px) {
+						font-size: 16px;
+					}
 				}
 			}
 
@@ -96,6 +114,9 @@
 				color: $font-color;
 				font-size: 14px;
 				margin-top: 0.4rem;
+				@media screen and (max-width: 750px) {
+					font-size: 16px;
+				}
 			}
 
 			.departments {
@@ -107,6 +128,9 @@
 					margin-top: 0.2rem;
 					color: $font-color;
 					font-size: 12px;
+					@media screen and (max-width: 750px) {
+						font-size: 14px;
+					}
 				}
 			}
 		}

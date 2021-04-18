@@ -11,7 +11,7 @@
 		{#if job.owner.icon}
 			<img src={job.owner.icon} alt="job" width="30px" height="30px" />
 		{/if}
-		<a href="/jobs/fdf-5" class="title">{job.title}</a>
+		<a href={job.link} class="title">{job.title}</a>
 		{#if job.remote}
 			<div class="remote">Remote</div>
 		{/if}
@@ -85,6 +85,7 @@
 
 		.description {
 			color: $font-color;
+			overflow-wrap: break-word;
 		}
 
 		.attributes {

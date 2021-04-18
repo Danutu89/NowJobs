@@ -1,17 +1,22 @@
 <script lang="ts">
+	import { refreshToken } from '$actions/app';
+
 	import Header from '$components/Header.svelte';
+	import { LOGGED_IN, REFRESHED_TOKEN, REFRESH_TOKEN_FAILED } from '$constants/app';
 	import { appInterceptor } from '$interceptors/app';
 	import { appReducer } from '$reducers/app';
 	import { appStore } from '$stores/app';
 	import { I18n } from '$vendor/i18n';
 	import Circle from '$vendor/mase/Spinners/Circle.svelte';
-	import { addReducerAndInterceptors } from '$vendor/sedux';
+	import { addReducerAndInterceptors, dispatch } from '$vendor/sedux';
+	import { addListener } from '$vendor/sedux/listener';
 	import Sedux from '$vendor/sedux/Sedux.svelte';
 	import type { Slicer } from '$vendor/sedux/types/action';
 	import { onMount } from 'svelte';
 
 	let slicer: Slicer,
-		loaded: boolean = false;
+		loaded: boolean = false,
+		refreshed: boolean = false;
 
 	onMount(() => {
 		slicer = addReducerAndInterceptors(appInterceptor, appReducer, 'app', appStore, 'user');
@@ -19,12 +24,20 @@
 		slicer.subscribe(({ app }) => {
 			loaded = !!app._persistLoaded;
 		});
+
+		if (loaded && $appStore.user.loggedIn === true) {
+			dispatch(() => refreshToken('app'));
+		}
+
+		addListener([REFRESHED_TOKEN, REFRESH_TOKEN_FAILED, LOGGED_IN], () => {
+			refreshed = true;
+		});
 	});
 </script>
 
 <Sedux>
 	<I18n translations={{}}>
-		{#if loaded}
+		{#if ($appStore.user.loggedIn && loaded && refreshed) || (!$appStore.user.loggedIn && loaded)}
 			<Header />
 			<slot />
 		{:else}

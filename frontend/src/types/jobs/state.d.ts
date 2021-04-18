@@ -1,17 +1,18 @@
+import type { Company } from '$types/companies';
+import type { Category, Domain } from '$types/job/state';
 import type { Permissions } from '$types/permissions';
 
-export interface Company {
-	icon: string;
-	name: string;
-}
-
-export interface Domain {
-	name: string;
-}
-
-export interface Category {
-	name: string;
-}
+export type Filters =
+	| {
+			search: string;
+			company: string;
+			domain: string;
+			created_on: string;
+			remote: boolean | null;
+			location: string;
+			category: string;
+	  }
+	| Record<string, string>;
 
 export interface Job {
 	title: string;
@@ -24,11 +25,15 @@ export interface Job {
 	salary: number;
 	seats: number;
 	created_on: string;
+	link: string;
 }
 export interface State {
 	jobs: {
 		results: Array<Job> | undefined[];
-		error: string;
+		error: {
+			status: number;
+			message: string;
+		};
 		count: number;
 		page: number;
 		next: string;
@@ -36,6 +41,9 @@ export interface State {
 	};
 	more: {
 		loading: boolean;
-		error: string;
+		error: {
+			status: number;
+			message: string;
+		};
 	};
 }

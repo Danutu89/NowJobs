@@ -1,34 +1,54 @@
 <script lang="ts">
+	import { getApplicant } from '$actions/applicants';
+	import { applicantsStore } from '$stores/applicants';
+
 	import { Modal } from '$vendor/mase';
 	import Button from '$vendor/mase/Button.svelte';
 	import Circle from '$vendor/mase/Spinners/Circle.svelte';
+	import { dispatch } from '$vendor/sedux';
+	import Error from '../routes/$error.svelte';
+	import { onMount } from 'svelte';
 
-	export let applicant: number = -1;
+	export let applicant: string = '';
 
-	let opened: boolean = applicant != -1;
-	let loading = false;
+	let opened: boolean = applicant != '';
 
-	$: opened = applicant != -1;
+	$: opened = applicant != '';
+
+	$: {
+		if (opened && applicant) dispatch(() => getApplicant(applicant, 'applicants'));
+	}
 </script>
 
 <Modal {opened} on:close>
-	{#if loading}
+	{#if $applicantsStore.applicant.loading && $applicantsStore.applicant.error.status === 200}
 		<Circle color="#258cf4" size={30} />
+	{:else if $applicantsStore.applicant.error.status !== 200 && !$applicantsStore.applicant.loading}
+		<Error
+			error={$applicantsStore.applicant.error}
+			status={$applicantsStore.applicant.error.status}
+		/>
 	{:else}
 		<div class="main">
 			<div class="header">
-				<h2>Daniel Ionut</h2>
+				<h2>{$applicantsStore.applicant.result.first_name}</h2>
 			</div>
 			<div class="body">
 				<h4>Data:</h4>
 				<div class="group">
-					<span class="name">Full Name:</span> <span class="value">Daniel Ionut Grigoras</span>
+					<span class="name">Full Name:</span>
+					<span class="value"
+						>{$applicantsStore.applicant.result.first_name}
+						{$applicantsStore.applicant.result.last_name}</span
+					>
 				</div>
 				<div class="group">
-					<span class="name">Email:</span> <span class="value">dany89yt@yahoo.com</span>
+					<span class="name">Email:</span>
+					<span class="value">{$applicantsStore.applicant.result.email}</span>
 				</div>
 				<div class="group">
-					<span class="name">Phone:</span> <span class="value">5438759873985</span>
+					<span class="name">Phone:</span>
+					<span class="value">{$applicantsStore.applicant.result.phone}</span>
 				</div>
 				<h4 style="margin-top: 1rem;">Notes</h4>
 				<div class="description">

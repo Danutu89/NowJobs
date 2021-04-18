@@ -3,47 +3,75 @@
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
+import shortuuidfield.fields
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('jobs', '0003_alter_job_seats'),
+        ("jobs", "0003_alter_job_seats"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Domain',
+            name="Domain",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=40)),
+                (
+                    "id",
+                    shortuuidfield.fields.ShortUUIDField(
+                        blank=True,
+                        editable=False,
+                        max_length=22,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("name", models.CharField(max_length=40)),
             ],
             options={
-                'verbose_name': 'Domain',
-                'verbose_name_plural': 'Domains',
+                "verbose_name": "Domain",
+                "verbose_name_plural": "Domains",
             },
         ),
         migrations.RenameField(
-            model_name='offer',
-            old_name='descriptiob',
-            new_name='description',
+            model_name="offer",
+            old_name="descriptiob",
+            new_name="description",
         ),
         migrations.AddField(
-            model_name='job',
-            name='craeted_on',
-            field=models.DateField(auto_now_add=True, default=django.utils.timezone.now),
+            model_name="job",
+            name="craeted_on",
+            field=models.DateField(
+                auto_now_add=True, default=django.utils.timezone.now
+            ),
             preserve_default=False,
         ),
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=40)),
-                ('domain', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='categories', to='jobs.domain')),
+                (
+                    "id",
+                    shortuuidfield.fields.ShortUUIDField(
+                        blank=True,
+                        editable=False,
+                        max_length=22,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("name", models.CharField(max_length=40)),
+                (
+                    "domain",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="categories",
+                        to="jobs.domain",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Category',
-                'verbose_name_plural': 'Categories',
+                "verbose_name": "Category",
+                "verbose_name_plural": "Categories",
             },
         ),
     ]

@@ -18,7 +18,7 @@
 		trasparent: boolean = false,
 		style: string;
 
-	let element, regPattern;
+	let element: HTMLInputElement, regPattern;
 
 	$: if (element && autofocus) element.focus();
 	$: if (element) element.type = type;

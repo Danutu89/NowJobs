@@ -14,12 +14,13 @@ import type {
 	GotJobs,
 	GotMoreJobs
 } from '$types/jobs/actions';
-import type { Job } from '$types/jobs';
+import type { Filters, Job } from '$types/jobs';
 import type { PaginatedResponse } from '$types/response';
 
-export const getJobs = (name: string): GetJobs => {
+export const getJobs = (filters: Filters, name: string): GetJobs => {
 	return {
 		type: GET_JOBS,
+		filters,
 		name
 	};
 };
@@ -37,7 +38,10 @@ export const gotJobs = (
 	};
 };
 
-export const getJobsFailed = (error: string, name: string): GetJobsFailed => {
+export const getJobsFailed = (
+	error: { status: number; message: string },
+	name: string
+): GetJobsFailed => {
 	return {
 		type: GET_JOBS_FAILED,
 		error,
@@ -45,10 +49,11 @@ export const getJobsFailed = (error: string, name: string): GetJobsFailed => {
 	};
 };
 
-export const getMoreJobs = (page: number, name: string): GetMoreJobs => {
+export const getMoreJobs = (filters: Filters, page: number, name: string): GetMoreJobs => {
 	return {
 		type: GET_MORE_JOBS,
 		page,
+		filters,
 		name
 	};
 };
@@ -68,7 +73,13 @@ export const gotMoreJobs = (
 	};
 };
 
-export const getMoreJobsFailed = (error: string, name: string): GetMoreJobsFailed => {
+export const getMoreJobsFailed = (
+	error: {
+		status: number;
+		message: string;
+	},
+	name: string
+): GetMoreJobsFailed => {
 	return {
 		type: GET_MORE_JOBS_FAILED,
 		error,

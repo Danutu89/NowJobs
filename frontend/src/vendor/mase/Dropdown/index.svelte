@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import Button from '../Button.svelte';
 	import Item from './Item.svelte';
-	export let options: Array<{ value: string; text: string }> = [],
+	export let options: Array<{ value: string; text: string; callback?: () => void }> = [],
 		color: string | null,
 		name: string | null,
 		defaultValue,
@@ -86,6 +86,7 @@
 					selected={selected ? selected.value === option.value : false}
 					on:click={() => {
 						if (!disabled) handleSelect(option, index);
+						if (option.callback) option.callback();
 					}}>{option.text}</Item
 				>
 			{/each}

@@ -1,7 +1,6 @@
 export interface ErrorResponse {
 	non_field_errors?: Array<string>;
-	detail?: string;
-	details?: Array<string>;
+	details?: string;
 }
 
 export interface PaginatedResponse<T> extends ErrorResponse {
@@ -10,3 +9,5 @@ export interface PaginatedResponse<T> extends ErrorResponse {
 	next: string;
 	prev: string;
 }
+
+export type Response<T> = ErrorResponse & T;

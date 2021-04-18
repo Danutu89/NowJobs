@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Input from '$vendor/mase/Input.svelte';
+	import { createEventDispatcher } from 'svelte';
 	import Circle from '../Spinners/Circle.svelte';
 	import type { Option, Value } from './types/option';
 
@@ -17,6 +18,9 @@
 	let maxWidth: number = 0;
 	let selectElement: HTMLElement;
 	let selectedValue: Option | null;
+	let triggerElement: HTMLElement;
+
+	const dispatch = createEventDispatcher();
 
 	$: {
 		tempOptions = options || [];
@@ -33,6 +37,7 @@
 	const handleSelect = (option: Option): void => {
 		value = option.value;
 		selectedValue = option;
+		dispatch('select', value);
 		handleOpenOptions();
 	};
 
@@ -41,15 +46,30 @@
 			opened = false;
 		}
 	};
+
+	const handleReset = (): void => {
+		selectedValue = null;
+		value = '';
+		dispatch('select', null);
+	};
+
+	const handleSearch = (e) => {
+		dispatch('search', e.target.value);
+	};
 </script>
 
 <svelte:window on:click={handleGeneralClick} />
 
 <dropdown bind:offsetWidth={maxWidth} bind:this={selectElement}>
 	<div class="trigger" on:click={handleOpenOptions} {style}>
-		{#if !loading}{selectedValue?.text || placeholder}
+		{#if !loading}<span class="value" bind:this={triggerElement}
+				>{selectedValue?.text || placeholder}</span
+			>
 		{:else}
 			<Circle size={15} style="margin-inline-start: auto;" color="#258cf4" />
+		{/if}
+		{#if value && selectedValue}
+			<span class="reset" on:click={handleReset}>&times</span>
 		{/if}
 	</div>
 	<div class="options {dir}" class:opened style="max-width: calc({maxWidth}px - 1rem);">
@@ -60,6 +80,8 @@
 				{placeholder}
 				style="width: calc(100% - 0.9rem);"
 				bind:value={searchValue}
+				on:input={handleSearch}
+				autofocus={opened}
 			/>
 		</div>
 		<div class="list">
@@ -87,6 +109,25 @@
 			cursor: pointer;
 			padding: 0.3rem 0.4rem;
 			transition: all 0.3s linear;
+			display: flex;
+			flex-flow: row;
+
+			.value {
+				width: 100%;
+				line-height: 1.2;
+			}
+
+			.reset {
+				border-radius: 20px;
+				margin-inline-start: auto;
+				padding: 0.15rem 0.3rem;
+				font-weight: 700;
+				line-height: 0.9;
+
+				&:hover {
+					background: darken($color: $background, $amount: 10);
+				}
+			}
 
 			&:hover {
 				background: darken($color: $background, $amount: 4);

@@ -13,7 +13,10 @@ export const jobsReducer = (action: Action, state: State): State => {
 	switch (action.type) {
 		case GET_JOBS:
 			state.jobs.loading = true;
-			state.jobs.error = '';
+			state.jobs.error = {
+				message: '',
+				status: 200
+			};
 			state.jobs.results = [];
 			break;
 		case GOT_JOBS:
@@ -29,7 +32,10 @@ export const jobsReducer = (action: Action, state: State): State => {
 			break;
 		case GET_MORE_JOBS:
 			state.more.loading = true;
-			state.more.error = '';
+			state.more.error = {
+				message: '',
+				status: 200
+			};
 			break;
 		case GOT_MORE_JOBS:
 			state.more.loading = false;

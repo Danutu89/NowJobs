@@ -66,6 +66,7 @@ ADDONS = [
     "rest_auth.registration",
     "rest_framework_jwt",
     "dry_rest_permissions",
+    "django_filters",
 ]
 
 INSTALLED_APPS = (
@@ -77,6 +78,7 @@ INSTALLED_APPS = (
         "django.contrib.messages",
         "django.contrib.staticfiles",
         "django.contrib.sites",
+        "django.contrib.postgres",
     ]
     + ADDONS
     + MICROSERVICES
@@ -177,6 +179,8 @@ REST_FRAMEWORK = {
     "JWT_EXPIRATION_DELTA": datetime.timedelta(minutes=6),
     "JWT_ALLOW_REFRESH": True,
     "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(days=7),
+    "EXCEPTION_HANDLER": "rest_framework.views.exception_handler",
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
 
 
