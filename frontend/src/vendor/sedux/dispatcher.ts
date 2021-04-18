@@ -8,6 +8,11 @@ import type { Value } from './types/storex';
 const dispatch = (action: ActionVoid | Action): void => {
 	const action_: Action = typeof action === 'function' ? action() : action;
 
+	if (!(action_.name in get(mainStore))) {
+		console.error('Logic name not valid.');
+		return;
+	}
+
 	if (get(callsStore).nextCalled === null) {
 		callsStore.update((prevState) => ({
 			...prevState,

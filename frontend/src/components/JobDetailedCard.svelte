@@ -1,5 +1,7 @@
 <script lang="ts">
-	import type { Job } from '$types/job';
+	import { appStore } from '$stores/app';
+
+	import type { Job } from '$types/jobs';
 
 	import { Button } from '$vendor/mase';
 	import Circle from '$vendor/mase/Spinners/Circle.svelte';
@@ -7,7 +9,7 @@
 	import JobApplyCard from './JobApplyCard.svelte';
 
 	export let loading: boolean = true,
-		result: Job | Record<string, unknown>,
+		result: Job,
 		error: {
 			status: number;
 			message: string;
@@ -35,16 +37,18 @@
 			{result.description}
 		</div>
 
-		{#if false}
-			<hr />
-			<Button
-				styles="padding: 0.6rem 2rem;border-radius: 20px;width: calc(100% - 4rem);"
-				centered
-				color="secondary">Fast Apply</Button
-			>
-		{:else if true}
-			<hr />
-			<JobApplyCard />
+		{#if !result.permissions?.write}
+			{#if $appStore.user.loggedIn && $appStore.user.data?.completed}
+				<hr />
+				<Button
+					styles="padding: 0.6rem 2rem;border-radius: 20px;width: calc(100% - 4rem);"
+					centered
+					color="secondary">Fast Apply</Button
+				>
+			{:else}
+				<hr />
+				<JobApplyCard />
+			{/if}
 		{/if}
 	{/if}
 </div>

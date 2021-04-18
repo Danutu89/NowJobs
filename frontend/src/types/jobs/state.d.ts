@@ -1,3 +1,4 @@
+import type { Applicant } from '$types/applicants';
 import type { Company } from '$types/companies';
 import type { Category, Domain } from '$types/job/state';
 import type { Permissions } from '$types/permissions';
@@ -14,6 +15,8 @@ export type Filters =
 	  }
 	| Record<string, string>;
 
+export type Offer = Applicant & { job: string };
+
 export interface Job {
 	title: string;
 	description: string;
@@ -26,7 +29,10 @@ export interface Job {
 	seats: number;
 	created_on: string;
 	link: string;
+	offered: boolean;
+	offer: Offer;
 }
+
 export interface State {
 	jobs: {
 		results: Array<Job> | undefined[];
@@ -45,5 +51,21 @@ export interface State {
 			status: number;
 			message: string;
 		};
+	};
+	job: {
+		result: Job;
+		error: {
+			status: number;
+			message: string;
+		};
+		loading: boolean;
+	};
+	apply: {
+		result: Offer;
+		error: {
+			status: number;
+			message: string;
+		};
+		loading: boolean;
 	};
 }

@@ -164,7 +164,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_AUTHENTICATION_METHOD = "none"
 AUTH_USER_MODEL = "users.User"
 
 REST_FRAMEWORK = {
@@ -184,9 +184,9 @@ REST_FRAMEWORK = {
 }
 
 
-# REST_AUTH_REGISTER_SERIALIZERS = {
-#     "REGISTER_SERIALIZER": "authentication.serializers.RegisterSerializer",
-# }
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "authentication.serializers.RegisterSerializer",
+}
 
 REST_AUTH_SERIALIZERS = {"USER_DETAILS_SERIALIZER": "users.serializers.UserSerializer"}
 

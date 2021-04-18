@@ -55,6 +55,18 @@ class User(AbstractBaseUser):
     def get_email(self):
         return self.email
 
+    def applicant_completed(self):
+        if (
+            hasattr(self, "applicant")
+            and self.applicant.email
+            and self.applicant.first_name
+            and self.applicant.last_name
+            and self.applicant.phone
+            and self.applicant.cv
+        ):
+            return True
+        return False
+
     def has_perm(self, perm, obj=None):
         return True
 
@@ -130,7 +142,8 @@ class Applicant(models.Model):
     phone = models.CharField(max_length=20)
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
-    user = models.ForeignKey(
+    email = models.EmailField()
+    user = models.OneToOneField(
         "users.User", on_delete=models.CASCADE, related_name="applicant"
     )
 

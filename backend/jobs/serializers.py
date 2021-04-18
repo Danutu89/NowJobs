@@ -25,13 +25,46 @@ class CategorySerializer(serializers.ModelSerializer):
 class OfferSerializer(serializers.ModelSerializer):
     class Meta:
         model = Offer
-        fields = ["email", "first_name", "last_name", "opened", "id"]
+        fields = [
+            "email",
+            "first_name",
+            "last_name",
+            "opened",
+            "id",
+            "description",
+            "job",
+            "cv",
+        ]
+        extra_kwargs = {
+            "description": {"write_only": True},
+            "job": {"write_only": True},
+            "cv": {"write_only": True, "required": False},
+            "phone": {"write_only": True},
+        }
+
+    def validate(self, data):
+        apply = (
+            Offer.objects.filter(email=data["email"]).filter(job_id=data["job"]).first()
+        )
+
+        if apply is not None:
+            raise serializers.ValidationError("You've already applied to that job.")
+
+        return super().validate(data)
 
 
 class OfferDetailedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Offer
-        fields = ["email", "first_name", "last_name", "description", "cv", "phone"]
+        fields = [
+            "email",
+            "first_name",
+            "last_name",
+            "description",
+            "cv",
+            "phone",
+            "job",
+        ]
 
 
 class JobDetailedSerializer(serializers.ModelSerializer):

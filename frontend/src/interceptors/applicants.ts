@@ -14,7 +14,7 @@ import { GET_APPLICANT, GET_APPLICANTS } from '$constants/applicants';
 
 const getApplicants = async ({ job, name }: GetApplicants): Promise<void> => {
 	try {
-		const res = await request.get('/api/jobs/applicants', { job });
+		const res = await request.get('/api/jobs/applicants/', { job });
 		const json: Response<Array<Applicant>> = await res.json();
 		if (res.status !== 200) {
 			let error = '';

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { login } from '$actions/app';
-	import { LOGGED_IN } from '$constants/app';
+	import { register } from '$actions/app';
+	import { REGISTERED } from '$constants/app';
 
 	import { appStore } from '$stores/app';
 
@@ -16,7 +16,8 @@
 
 	export let opened: boolean = false;
 	let email: string = '',
-		password: string = '';
+		password1: string = '',
+		password2: string = '';
 
 	const sDispatcher = createEventDispatcher();
 
@@ -27,16 +28,17 @@
 
 	const handleClose = (): void => {
 		email = '';
-		password = '';
+		password1 = '';
+		password2 = '';
 		sDispatcher('close');
 	};
 
 	const handleLogin = (): void => {
-		dispatch(() => login(email, password, 'app'));
+		dispatch(() => register({ email, password1, password2 }, 'app'));
 	};
 
 	onMount(() => {
-		addListener([LOGGED_IN], () => sDispatcher('close'));
+		addListener([REGISTERED], () => sDispatcher('close'));
 	});
 </script>
 
@@ -44,20 +46,28 @@
 <Modal {opened} on:close={handleClose}>
 	<main>
 		<div class="header">
-			<h2>Login</h2>
+			<h2>Register</h2>
 		</div>
 		<div class="content">
 			<Input name="email" fluid placeholder="Email" bind:value={email} autofocus />
-			<Input type="password" fluid name="password" placeholder="Password" bind:value={password} />
+			<Input type="password" fluid name="password" placeholder="Password" bind:value={password1} />
+			<Input
+				type="password"
+				fluid
+				name="password1"
+				placeholder="Repeat Password"
+				bind:value={password2}
+				mirrors={password1}
+			/>
 			<Button
 				color="secondary"
 				styles="padding: 0.3rem 2rem;border-radius: 20px;width: calc(100% - 4rem);margin-top: 0.8rem;"
 				centered
-				loading={$appStore.login.loading}
-				on:click={handleLogin}>Login</Button
+				loading={$appStore.register.loading}
+				on:click={handleLogin}>Register</Button
 			>
 		</div>
-		{#if $appStore.login.error}
+		{#if $appStore.register.error}
 			<div class="errors">
 				<span>{$appStore.login.error}</span>
 			</div>

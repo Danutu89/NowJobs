@@ -6,35 +6,35 @@
 	import JobApplicants from '$components/JobApplicants.svelte';
 	import { onMount } from 'svelte';
 	import { addReducerAndInterceptors, dispatch } from '$vendor/sedux';
-	import { jobInterceptor } from '$interceptors/job';
-	import { jobReducer } from '$reducers/job';
-	import { jobStore } from '$stores/job';
-	import { getJob } from '$actions/job';
+	import { jobsInterceptor } from '$interceptors/jobs';
+	import { jobsReducer } from '$reducers/jobs';
+	import { jobsStore } from '$stores/jobs';
+	import { getJob } from '$actions/jobs';
 	import { page } from '$app/stores';
 	import { addListener } from '$vendor/sedux/listener';
 	import { LOGGED_IN, LOGGED_OUT } from '$constants/app';
 
 	onMount(() => {
-		addReducerAndInterceptors(jobInterceptor, jobReducer, 'job', jobStore);
+		addReducerAndInterceptors(jobsInterceptor, jobsReducer, 'jobs', jobsStore);
 
-		dispatch(() => getJob($page.params.id, 'job'));
+		dispatch(() => getJob($page.params.id, 'jobs'));
 
 		addListener([LOGGED_IN, LOGGED_OUT], (): void => {
-			dispatch(() => getJob($page.params.id, 'job'));
+			dispatch(() => getJob($page.params.id, 'jobs'));
 		});
 	});
 </script>
 
 <div class="container">
-	<JobDetailedCard {...$jobStore.job} />
+	<JobDetailedCard {...$jobsStore.job} />
 	<div class="right sidebar">
-		{#if $jobStore.job.result?.permissions?.write === false}
+		{#if $jobsStore.job.result?.permissions?.write === false}
 			<JobMiniCompanyCard />
 			<JobsPromoted jobs={new Array(4)} />
 		{:else}
 			<JobApplicants />
 		{/if}
-		{#if !$jobStore.job.loading && $jobStore.job.result?.offered}
+		{#if !$jobsStore.job.loading && $jobsStore.job.result?.offered}
 			<JobApplyStatus />
 		{/if}
 	</div>

@@ -19,6 +19,22 @@ export const initialState = {
 			status: 200,
 			message: ''
 		}
+	},
+	job: {
+		result: {},
+		error: {
+			status: 200,
+			message: ''
+		},
+		loading: false
+	},
+	apply: {
+		result: {},
+		error: {
+			status: 200,
+			message: ''
+		},
+		loading: false
 	}
 } as State;
 

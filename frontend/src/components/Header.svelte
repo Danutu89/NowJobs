@@ -9,8 +9,10 @@
 	import { dispatch } from '$vendor/sedux';
 	import { logout } from '$actions/app';
 	import { goto } from '$app/navigation';
+	import RegisterModal from './RegisterModal.svelte';
 
-	let loginOpened: boolean = false;
+	let loginOpened: boolean = false,
+		registerOpened: boolean = false;
 
 	const handleLogout = (): void => {
 		dispatch(() => logout('app'));
@@ -28,6 +30,14 @@
 
 	const handleLoginClose = (): void => {
 		loginOpened = false;
+	};
+
+	const handleRegisterOpen = (): void => {
+		registerOpened = true;
+	};
+
+	const handleRegisterClose = (): void => {
+		registerOpened = false;
 	};
 </script>
 
@@ -47,7 +57,7 @@
 				<Button color="secondary" trasparent on:click={handleLoginOpen}>Login</Button>
 			</Item>
 			<Item>
-				<Button color="secondary">Register</Button>
+				<Button color="secondary" on:click={handleRegisterOpen}>Register</Button>
 			</Item>
 		{:else}
 			<Item
@@ -62,3 +72,4 @@
 </Navbar>
 
 <LoginModal opened={loginOpened} on:close={handleLoginClose} />
+<RegisterModal opened={registerOpened} on:close={handleRegisterClose} />

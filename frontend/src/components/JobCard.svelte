@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { appStore } from '$stores/app';
 	import type { Job } from '$types/jobs';
 
 	import Button from '$vendor/mase/Button.svelte';
@@ -25,15 +26,19 @@
 	<div class="attributes">
 		<span class="category">{job.category.name}</span>
 	</div>
-	<div class="actions">
-		<Button
-			color="secondary"
-			styles="border-radius: 10px;padding: 0.3rem 0.5rem;"
-			trasparent
-			effect
-			fluid>Fast Apply</Button
-		>
-	</div>
+	{#if $appStore.user.loggedIn}
+		<div class="actions">
+			{#if $appStore.user.data.completed}
+				<Button
+					color="secondary"
+					styles="border-radius: 10px;padding: 0.3rem 0.5rem;"
+					trasparent
+					effect
+					fluid>Fast Apply</Button
+				>
+			{/if}
+		</div>
+	{/if}
 </card>
 
 <style lang="scss">

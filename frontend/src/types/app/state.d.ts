@@ -1,17 +1,18 @@
 export interface User {
 	username: string;
 	email: string;
+	completed: boolean;
 }
 
 export interface UserRegister {
 	email: string;
-	password: string;
+	password1: string;
 	password2: string;
 }
 
 export interface State {
 	user: {
-		data: User | Record<string, unknown>;
+		data: User;
 		token: string;
 		loggedIn: boolean;
 	};

@@ -13,8 +13,8 @@
 </script>
 
 <div class="applicant" on:click={handleApplicantClick}>
-	<span class="name">Daniel Ionut</span>
-	<span class="email">dany89yt@yahoo.com</span>
+	<span class="name">{applicant.first_name}</span>
+	<span class="email">{applicant.email}</span>
 </div>
 
 <style lang="scss">

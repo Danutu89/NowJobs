@@ -5,6 +5,7 @@ from dry_rest_permissions.generics import DRYPermissionsField
 
 class UserSerializer(serializers.ModelSerializer):
     permissions = DRYPermissionsField()
+    completed = serializers.BooleanField(source="applicant_completed")
 
     class Meta:
         model = User
@@ -13,6 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "id",
             "permissions",
+            "completed",
         ]
 
 

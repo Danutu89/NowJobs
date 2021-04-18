@@ -1,11 +1,12 @@
+from authentication.views import RegisterView
 from django.conf.urls import url
 from django.urls import path, include
 from rest_framework_jwt.views import refresh_jwt_token
 
-from allauth.socialaccount import providers
 
 urlpatterns = [
     url(r"^", include("rest_auth.urls")),
+    url(r"^registration/", RegisterView.as_view(), name="register"),
     url(r"^refresh/", refresh_jwt_token),
 ]
 

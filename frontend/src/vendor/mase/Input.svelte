@@ -16,6 +16,7 @@
 		borderless: boolean = false,
 		size: string = '16px',
 		trasparent: boolean = false,
+		notEmpty: boolean = false,
 		style: string;
 
 	let element: HTMLInputElement, regPattern;
@@ -26,8 +27,10 @@
 		regPattern = new RegExp(pattern);
 		error = !regPattern.test(value);
 	} else {
-		error = false;
+		if (notEmpty) error = !value && notEmpty;
+		else error = false;
 	}
+
 	$: if (mirrors && value) {
 		if (value != mirrors) {
 			error = true;
