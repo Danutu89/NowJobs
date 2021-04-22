@@ -6,13 +6,13 @@
 	import { locationsStore } from '$stores/locations';
 
 	import { Select } from '$vendor/mase';
-	import { addReducerAndInterceptors, dispatch } from '$vendor/sedux';
+	import { createSlicer, dispatch } from '$vendor/sedux';
 	import { onMount } from 'svelte';
 
 	export let value: string;
 
 	onMount(() => {
-		addReducerAndInterceptors(locationsInterceptor, locationsReducer, 'locations', locationsStore);
+		createSlicer(locationsInterceptor, locationsReducer, 'locations', locationsStore);
 
 		dispatch(() => getLocations('locations'));
 	});

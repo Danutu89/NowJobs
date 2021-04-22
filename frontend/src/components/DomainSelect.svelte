@@ -6,13 +6,13 @@
 	import { domainsStore } from '$stores/domains';
 
 	import { Select } from '$vendor/mase';
-	import { addReducerAndInterceptors, dispatch } from '$vendor/sedux';
+	import { createSlicer, dispatch } from '$vendor/sedux';
 	import { onMount } from 'svelte';
 
 	export let value: string;
 
 	onMount(() => {
-		addReducerAndInterceptors(domainsInterceptor, domainsReducer, 'domains', domainsStore);
+		createSlicer(domainsInterceptor, domainsReducer, 'domains', domainsStore);
 
 		dispatch(() => getDomains('domains'));
 	});

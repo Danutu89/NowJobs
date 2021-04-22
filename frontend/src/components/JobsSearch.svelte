@@ -7,7 +7,7 @@
 	import type { Filters } from '$types/jobs';
 	import MediaQuery from '$vendor/mase/utils/MediaQuery.svelte';
 
-	import { addReducerAndInterceptors, dispatch } from '$vendor/sedux';
+	import { createSlicer, dispatch } from '$vendor/sedux';
 	import { onMount } from 'svelte';
 
 	import JobsContainer from './JobsContainer.svelte';
@@ -27,7 +27,7 @@
 	};
 
 	onMount(() => {
-		addReducerAndInterceptors(jobsInterceptor, jobsReducer, 'jobs', jobsStore);
+		createSlicer(jobsInterceptor, jobsReducer, 'jobs', jobsStore);
 
 		dispatch(() => getJobs(filters, 'jobs'));
 	});

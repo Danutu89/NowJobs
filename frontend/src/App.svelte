@@ -8,7 +8,7 @@
 	import { appStore } from '$stores/app';
 	import { I18n } from '$vendor/i18n';
 	import Circle from '$vendor/mase/Spinners/Circle.svelte';
-	import { addReducerAndInterceptors, dispatch } from '$vendor/sedux';
+	import { createSlicer, dispatch } from '$vendor/sedux';
 	import { addListener } from '$vendor/sedux/listener';
 	import Sedux from '$vendor/sedux/Sedux.svelte';
 	import type { Slicer } from '$vendor/sedux/types/action';
@@ -19,7 +19,7 @@
 		refreshed = false;
 
 	onMount(() => {
-		slicer = addReducerAndInterceptors(appInterceptor, appReducer, 'app', appStore, 'user');
+		slicer = createSlicer(appInterceptor, appReducer, 'app', appStore, 'user');
 
 		slicer.subscribe(({ app }) => {
 			loaded = !!app._persistLoaded;

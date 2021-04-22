@@ -10,11 +10,11 @@ import type { Storex, Value } from './types/storex';
  * @param name
  * @param state
  */
-export function addReducerAndInterceptors(
+export function createSlicer(
 	interceptor: (action: Action) => void | null,
 	reducer: (nextCalled: Action, state: Value) => Value,
 	name: string,
-	state: Storex<unknown>,
+	state: Storex<Value>,
 	persist: boolean | string = false
 ): Slicer {
 	if (!reducer || !state || !name) return;

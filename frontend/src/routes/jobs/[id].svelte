@@ -5,7 +5,7 @@
 	import JobsPromoted from '$components/JobsPromoted.svelte';
 	import JobApplicants from '$components/JobApplicants.svelte';
 	import { onMount } from 'svelte';
-	import { addReducerAndInterceptors, dispatch } from '$vendor/sedux';
+	import { createSlicer, dispatch } from '$vendor/sedux';
 	import { jobsInterceptor } from '$interceptors/jobs';
 	import { jobsReducer } from '$reducers/jobs';
 	import { jobsStore } from '$stores/jobs';
@@ -15,7 +15,7 @@
 	import { LOGGED_IN, LOGGED_OUT } from '$constants/app';
 
 	onMount(() => {
-		addReducerAndInterceptors(jobsInterceptor, jobsReducer, 'jobs', jobsStore);
+		createSlicer(jobsInterceptor, jobsReducer, 'jobs', jobsStore);
 
 		dispatch(() => getJob($page.params.id, 'jobs'));
 

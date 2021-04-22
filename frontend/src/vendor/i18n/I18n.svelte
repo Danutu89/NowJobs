@@ -1,5 +1,5 @@
 <script>
-	import { addReducerAndInterceptors, dispatch } from '../sedux';
+	import { createSlicer, dispatch } from '../sedux';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { i18nReducer } from './reducer';
@@ -19,7 +19,7 @@
 	};
 
 	onMount(() => {
-		const slicer = addReducerAndInterceptors(null, i18nReducer, 'i18n', languages, 'locale');
+		const slicer = createSlicer(null, i18nReducer, 'i18n', languages, 'locale');
 
 		if (typeof window !== 'undefined') {
 			const locale =

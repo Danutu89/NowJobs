@@ -6,13 +6,13 @@
 	import { companiesStore } from '$stores/companies';
 
 	import { Select } from '$vendor/mase';
-	import { addReducerAndInterceptors, dispatch } from '$vendor/sedux';
+	import { createSlicer, dispatch } from '$vendor/sedux';
 	import { onMount } from 'svelte';
 
 	export let value: string;
 
 	onMount(() => {
-		addReducerAndInterceptors(companiesInterceptor, companiesReducer, 'companies', companiesStore);
+		createSlicer(companiesInterceptor, companiesReducer, 'companies', companiesStore);
 
 		dispatch(() => getCompanies('companies'));
 	});

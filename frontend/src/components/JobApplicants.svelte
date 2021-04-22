@@ -7,7 +7,7 @@
 	import { applicantsStore } from '$stores/applicants';
 
 	import Circle from '$vendor/mase/Spinners/Circle.svelte';
-	import { addReducerAndInterceptors, dispatch } from '$vendor/sedux';
+	import { createSlicer, dispatch } from '$vendor/sedux';
 	import type { Slicer } from '$vendor/sedux/types/action';
 	import { onMount } from 'svelte';
 	import ApplicantModal from './ApplicantModal.svelte';
@@ -26,12 +26,7 @@
 	};
 
 	onMount(() => {
-		slicer = addReducerAndInterceptors(
-			applicantsInterceptor,
-			applicantsReducer,
-			'applicants',
-			applicantsStore
-		);
+		slicer = createSlicer(applicantsInterceptor, applicantsReducer, 'applicants', applicantsStore);
 
 		slicer.subscribe(({ applicants }) => {
 			loaded = !!applicants;
