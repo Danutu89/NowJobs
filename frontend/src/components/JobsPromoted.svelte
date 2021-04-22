@@ -3,8 +3,8 @@
 	import JobMiniCard from './JobMiniCard.svelte';
 
 	export let jobs: Array<any> = [],
-		loading: boolean = false,
-		error: string = '';
+		loading = false,
+		error = '';
 </script>
 
 <div class="promoted">

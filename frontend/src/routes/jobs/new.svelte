@@ -2,7 +2,7 @@
 	import JobNewCard from '$components/JobNewCard.svelte';
 	import JobNewPackages from '$components/JobNewPackages.svelte';
 
-	let selectedPackage: number = -1;
+	let selectedPackage = -1;
 </script>
 
 <div class="container">

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
-	let show: boolean = false,
+	let show = false,
 		popupElement: HTMLElement;
 
 	// $: if (popupElement && false) {

@@ -2,13 +2,13 @@
 	import Item from './Item.svelte';
 	import { page } from '$app/stores';
 
-	interface Item {
+	interface ItemValue {
 		value: string;
 		link: string | undefined | null;
 		text: string;
 	}
 
-	export let items: Array<Item>, value: Item;
+	export let items: Array<ItemValue>, value: ItemValue;
 
 	const handleClick = (item): void => {
 		value = item;

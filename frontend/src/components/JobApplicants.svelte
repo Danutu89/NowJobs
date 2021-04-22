@@ -13,9 +13,9 @@
 	import ApplicantModal from './ApplicantModal.svelte';
 	import JobApplicant from './JobApplicant.svelte';
 
-	let selectedApplicant: string = '',
+	let selectedApplicant = '',
 		slicer: Slicer,
-		loaded: boolean = false;
+		loaded = false;
 
 	const handleApplicantSelect = ({ detail }): void => {
 		selectedApplicant = detail;

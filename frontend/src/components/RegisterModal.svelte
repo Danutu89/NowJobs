@@ -14,10 +14,10 @@
 
 	import { createEventDispatcher, onMount } from 'svelte';
 
-	export let opened: boolean = false;
-	let email: string = '',
-		password1: string = '',
-		password2: string = '';
+	export let opened = false;
+	let email = '',
+		password1 = '',
+		password2 = '';
 
 	const sDispatcher = createEventDispatcher();
 

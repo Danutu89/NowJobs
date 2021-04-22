@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let _package,
-		selected: boolean = false;
+		selected = false;
 
 	const dispatch = createEventDispatcher();
 

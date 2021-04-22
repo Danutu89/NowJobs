@@ -3,9 +3,9 @@
 	import JobNewPackage from './JobNewPackage.svelte';
 
 	export let packages: Array<any> = [],
-		loading: boolean = false,
-		error: string = '',
-		selectedPackage: number = -1;
+		loading = false,
+		error = '',
+		selectedPackage = -1;
 
 	const handleSelectPackage = ({ detail }): void => {
 		selectedPackage = detail;

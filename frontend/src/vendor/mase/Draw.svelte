@@ -3,10 +3,10 @@
 	import { createEventDispatcher } from 'svelte';
 	import { slide } from 'svelte/transition';
 
-	export let opened: boolean = false,
-		height: number = 350,
-		pulsating: boolean = false,
-		closable: boolean = false,
+	export let opened = false,
+		height = 350,
+		pulsating = false,
+		closable = false,
 		id: null | string = null;
 
 	let headerHeight: number;

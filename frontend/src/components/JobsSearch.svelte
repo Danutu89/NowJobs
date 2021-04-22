@@ -16,7 +16,7 @@
 
 	export let filters: Filters;
 
-	let opened: boolean = false;
+	let opened = false;
 
 	const handleChange = (): void => {
 		dispatch(() => getJobs(filters, 'jobs'));

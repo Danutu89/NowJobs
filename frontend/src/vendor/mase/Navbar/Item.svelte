@@ -1,9 +1,9 @@
 <script lang="ts">
 	export let effect: boolean,
-		logo: boolean = false,
-		link: boolean = false,
-		to: string = '',
-		selected: boolean = false;
+		logo = false,
+		link = false,
+		to = '',
+		selected = false;
 </script>
 
 <item class:effect class:logo class:link class:selected>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let status: string = 'Not Opened';
+	export let status = 'Not Opened';
 </script>
 
 <div class="status">

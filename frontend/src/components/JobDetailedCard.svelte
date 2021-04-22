@@ -8,7 +8,7 @@
 	import Error from '../routes/$error.svelte';
 	import JobApplyCard from './JobApplyCard.svelte';
 
-	export let loading: boolean = true,
+	export let loading = true,
 		result: Job,
 		error: {
 			status: number;

@@ -9,7 +9,7 @@
 	import Error from '../routes/$error.svelte';
 	import { onMount } from 'svelte';
 
-	export let applicant: string = '';
+	export let applicant = '';
 
 	let opened: boolean = applicant != '';
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let dir: string = 'left';
+	export let dir = 'left';
 </script>
 
 <group class={dir}>

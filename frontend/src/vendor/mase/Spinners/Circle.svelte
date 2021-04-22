@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let size: number = 60;
-	export let unit: string = 'px';
-	export let duration: string = '0.75s';
-	export let style: string = '';
+	export let size = 60;
+	export let unit = 'px';
+	export let duration = '0.75s';
+	export let style = '';
 	export let color: string | null = null;
 </script>
 

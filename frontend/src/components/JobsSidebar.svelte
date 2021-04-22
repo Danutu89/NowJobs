@@ -11,7 +11,7 @@
 	import DomainSelect from './DomainSelect.svelte';
 
 	export let filters: Filters;
-	export let opened: boolean = true;
+	export let opened = true;
 
 	const handleChange = () => {
 		dispatch(() => getJobs(filters, 'jobs'));

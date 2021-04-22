@@ -1,8 +1,8 @@
 <script lang="ts">
-	export let rows: number = 2,
-		value: string = '',
-		placeholder: string = '',
-		style: string = '';
+	export let rows = 2,
+		value = '',
+		placeholder = '',
+		style = '';
 </script>
 
 <textarea bind:value {rows} {placeholder} {style} />

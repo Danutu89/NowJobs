@@ -4,13 +4,13 @@
 		effect: boolean,
 		styles: string,
 		borderless: boolean,
-		loading: boolean = false,
-		fluid: boolean = false,
+		loading = false,
+		fluid = false,
 		id: null | string = null,
-		disabled: boolean = false,
-		centered: boolean = false,
-		clientWidth: number = 0,
-		trasparent: boolean = false;
+		disabled = false,
+		centered = false,
+		clientWidth = 0,
+		trasparent = false;
 </script>
 
 <div

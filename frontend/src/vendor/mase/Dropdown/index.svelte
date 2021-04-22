@@ -8,9 +8,9 @@
 		name: string | null,
 		defaultValue,
 		className: string | null,
-		dir: string = 'right',
-		opened: boolean = false,
-		disabled: boolean = false,
+		dir = 'right',
+		opened = false,
+		disabled = false,
 		styles: string | null;
 
 	const dispatch = createEventDispatcher();

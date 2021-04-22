@@ -6,7 +6,7 @@
 		height: string,
 		width: string,
 		styles: string,
-		rounded: boolean = false;
+		rounded = false;
 	let imgElement: HTMLImageElement;
 
 	const dispatch = createEventDispatcher();

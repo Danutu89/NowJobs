@@ -1,6 +1,5 @@
 const sveltePreprocess = require('svelte-preprocess');
 const { resolve } = require('path');
-const babel = require('vite-babel-plugin');
 const node = require('@sveltejs/adapter-node');
 const pkg = require('./package.json');
 
@@ -34,8 +33,7 @@ module.exports = {
 					$vendor: resolve('./src/vendor'),
 					$types: resolve('./src/types')
 				}
-			},
-			plugins: [babel]
+			}
 		}
 	}
 };

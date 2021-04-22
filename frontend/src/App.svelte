@@ -15,8 +15,8 @@
 	import { onMount } from 'svelte';
 
 	let slicer: Slicer,
-		loaded: boolean = false,
-		refreshed: boolean = false;
+		loaded = false,
+		refreshed = false;
 
 	onMount(() => {
 		slicer = addReducerAndInterceptors(appInterceptor, appReducer, 'app', appStore, 'user');

@@ -2,8 +2,8 @@
 	import Circle from '$vendor/mase/Spinners/Circle.svelte';
 
 	export let company,
-		loading: boolean = false,
-		error: string = '';
+		loading = false,
+		error = '';
 </script>
 
 <div class="company">

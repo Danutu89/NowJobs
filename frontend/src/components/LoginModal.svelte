@@ -14,9 +14,9 @@
 
 	import { createEventDispatcher, onMount } from 'svelte';
 
-	export let opened: boolean = false;
-	let email: string = '',
-		password: string = '';
+	export let opened = false;
+	let email = '',
+		password = '';
 
 	const sDispatcher = createEventDispatcher();
 

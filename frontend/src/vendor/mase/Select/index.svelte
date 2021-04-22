@@ -4,18 +4,18 @@
 	import Circle from '../Spinners/Circle.svelte';
 	import type { Option, Value } from './types/option';
 
-	export let loading: boolean = false,
+	export let loading = false,
 		options: Array<Option> = [],
-		opened: boolean = false,
+		opened = false,
 		dir: 'left' | 'right' = 'right',
-		placeholder: string = 'default',
+		placeholder = 'default',
 		value: Value | null,
-		style: string = '',
+		style = '',
 		name: string | 'select';
 
 	let tempOptions = options || [];
-	let searchValue: string = '';
-	let maxWidth: number = 0;
+	let searchValue = '';
+	let maxWidth = 0;
 	let selectElement: HTMLElement;
 	let selectedValue: Option | null;
 	let triggerElement: HTMLElement;

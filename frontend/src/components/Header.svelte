@@ -4,15 +4,14 @@
 	import { Group, Item, Navbar } from '$vendor/mase/Navbar';
 	import { page } from '$app/stores';
 	import LoginModal from './LoginModal.svelte';
-	import { Item as DropdownItem } from '$vendor/mase/Dropdown';
 	import MediaQuery from '$vendor/mase/utils/MediaQuery.svelte';
 	import { dispatch } from '$vendor/sedux';
 	import { logout } from '$actions/app';
 	import { goto } from '$app/navigation';
 	import RegisterModal from './RegisterModal.svelte';
 
-	let loginOpened: boolean = false,
-		registerOpened: boolean = false;
+	let loginOpened = false,
+		registerOpened = false;
 
 	const handleLogout = (): void => {
 		dispatch(() => logout('app'));

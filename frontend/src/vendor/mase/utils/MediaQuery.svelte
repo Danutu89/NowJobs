@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	export let query;
+	export let query: string;
 
 	let mql: MediaQueryList;
 	let mqlListener: (v: any) => boolean;
-	let wasMounted: boolean = false;
-	let matches: boolean = false;
+	let wasMounted = false;
+	let matches = false;
 
 	onMount(() => {
 		wasMounted = true;
