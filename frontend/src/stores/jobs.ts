@@ -38,4 +38,4 @@ export const initialState = {
 	}
 } as State;
 
-export const jobsStore = storex<State>(initialState);
+export const jobsStore = storex(initialState);

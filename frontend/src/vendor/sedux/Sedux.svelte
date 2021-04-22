@@ -19,7 +19,7 @@
 			listenerCatcher(value);
 		});
 
-		queue.subscribe((value) => {
+		queue.subscribe(() => {
 			updateQueue();
 		});
 	});

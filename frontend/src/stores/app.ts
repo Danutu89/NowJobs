@@ -9,7 +9,10 @@ export const initialState = {
 	},
 	login: {
 		loading: false,
-		error: ''
+		error: {
+			status: 200,
+			message: ''
+		}
 	},
 	logout: {
 		loading: false,
@@ -25,4 +28,4 @@ export const initialState = {
 	}
 } as State;
 
-export const appStore = storex<State>(initialState);
+export const appStore = storex(initialState);

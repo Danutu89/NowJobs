@@ -12,4 +12,4 @@ export const initialState = {
 	}
 } as State;
 
-export const domainsStore = storex<State>(initialState);
+export const domainsStore = storex(initialState);

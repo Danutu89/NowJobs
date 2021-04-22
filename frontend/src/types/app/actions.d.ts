@@ -6,7 +6,10 @@ export interface Login extends Action {
 	password: string;
 }
 export interface LoginFailed extends Action {
-	error: string;
+	error: {
+		status: number;
+		message: string;
+	};
 }
 export interface LoggedIn extends Action {
 	data: User;

@@ -18,7 +18,10 @@ export interface State {
 	};
 	login: {
 		loading: boolean;
-		error: string;
+		error: {
+			status: number;
+			message: string;
+		};
 	};
 	logout: {
 		loading: boolean;

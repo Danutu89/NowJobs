@@ -6,4 +6,4 @@ export interface Storex<T> extends Writable<T> {
 
 export type Value = T;
 
-export declare function storex<T>(initialState: T): Storex<T>;
+export declare function storex(initialState: T): Storex<typeof T>;

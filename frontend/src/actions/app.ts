@@ -46,7 +46,10 @@ export const loggedIn = (token: string, data: User, name: string): LoggedIn => {
 	};
 };
 
-export const loginFailed = (error: string, name: string): LoginFailed => {
+export const loginFailed = (
+	error: { status: number; message: string },
+	name: string
+): LoginFailed => {
 	return {
 		type: LOGIN_FAILED,
 		name,

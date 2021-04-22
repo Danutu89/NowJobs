@@ -20,4 +20,4 @@ export const initialState = {
 	}
 } as State;
 
-export const applicantsStore = storex<State>(initialState);
+export const applicantsStore = storex(initialState);
