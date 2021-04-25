@@ -19,6 +19,9 @@
 		notEmpty = false,
 		style = '';
 
+	let notEmptyError = false;
+	let firstType = false;
+
 	let element: HTMLInputElement, regPattern;
 
 	$: if (element && autofocus) element.focus();
@@ -26,9 +29,11 @@
 	$: if (pattern && value) {
 		regPattern = new RegExp(pattern);
 		error = !regPattern.test(value);
+		notEmptyError = false;
 	} else {
-		if (notEmpty) error = !value && notEmpty;
-		else error = false;
+		if (notEmpty) {
+			notEmptyError = error = !value && notEmpty && firstType;
+		} else error = notEmptyError = false;
 	}
 
 	$: if (mirrors && value) {
@@ -40,20 +45,23 @@
 	$: if (defaultValue) {
 		value = defaultValue;
 	}
+
+	$: if (value != '' && !firstType) firstType = true;
 </script>
 
 <div style="width: 100%">
 	{#if label}
 		<label for={element}>{label}</label>
 	{/if}
-	{#if error && pattern}
+	{#if notEmptyError}
+		<label class="error" for={element}>Field empty.</label>
+	{:else if error && pattern}
 		<label class="error" for={element}>Respect the format.</label>
-	{/if}
-	{#if mirrors && error}
+	{:else if mirrors && error}
 		<label class="error" for={element}>Fields doesn`t match.</label>
 	{/if}
 	<input
-		class:error
+		class:error={error || notEmptyError}
 		class:disabled
 		class:fluid
 		class:trasparent

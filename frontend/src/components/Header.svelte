@@ -17,12 +17,6 @@
 		dispatch(() => logout('app'));
 	};
 
-	const accountOptions: Array<{ value: string; text: string; callback?: () => void }> = [
-		{ value: 'jobs', text: 'Jobs', callback: () => goto('/jobs') },
-		{ value: 'account', text: 'Account' },
-		{ value: 'logout', text: 'Logout', callback: handleLogout }
-	];
-
 	const handleLoginOpen = (): void => {
 		loginOpened = true;
 	};
@@ -38,6 +32,18 @@
 	const handleRegisterClose = (): void => {
 		registerOpened = false;
 	};
+
+	const accountOptions: Array<{ value: string; text: string; callback?: () => void | void }> = [
+		{ value: 'jobs', text: 'Jobs', callback: () => goto('/jobs') },
+		{ value: 'account', text: 'Account' },
+		{ value: 'logout', text: 'Logout', callback: handleLogout }
+	];
+
+	const generalOptions: Array<{ value: string; text: string; callback?: () => void }> = [
+		{ value: 'post', text: 'Post Job', callback: () => goto('jobs/new') },
+		{ value: 'register', text: 'Register', callback: handleRegisterOpen },
+		{ value: 'login', text: 'Login', callback: handleLoginOpen }
+	];
 </script>
 
 <Navbar>
@@ -52,12 +58,27 @@
 		</MediaQuery>
 		<Item link to="/jobs" selected={$page.path === '/jobs'}>Jobs</Item>
 		{#if !$appStore.user.loggedIn}
-			<Item>
-				<Button color="secondary" trasparent on:click={handleLoginOpen}>Login</Button>
-			</Item>
-			<Item>
-				<Button color="secondary" on:click={handleRegisterOpen}>Register</Button>
-			</Item>
+			<MediaQuery query="(max-width: 650px)" let:matches>
+				{#if matches}
+					<Item
+						><Dropdown options={generalOptions}>
+							<svelte:fragment slot="trigger"
+								><Button trasparent color="secondary">Menu</Button></svelte:fragment
+							>
+						</Dropdown></Item
+					>
+				{:else}
+					<Item>
+						<Button color="secondary" on:click={() => goto('/jobs/new')} fluid>Post Job</Button>
+					</Item>
+					<Item>
+						<Button color="secondary" trasparent on:click={handleLoginOpen}>Login</Button>
+					</Item>
+					<Item>
+						<Button color="secondary" on:click={handleRegisterOpen}>Register</Button>
+					</Item>
+				{/if}
+			</MediaQuery>
 		{:else}
 			<Item
 				><Dropdown options={accountOptions}>

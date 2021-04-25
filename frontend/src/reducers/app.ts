@@ -23,7 +23,7 @@ export const appReducer = (action: Action, state: State): State => {
 			break;
 		case LOGIN:
 			state.login.loading = true;
-			state.login.error = '';
+			state.login.error = { status: 200, message: '' };
 			break;
 		case REGISTERED:
 			state.register.loading = false;

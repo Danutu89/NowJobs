@@ -1,5 +1,7 @@
 <script lang="ts">
-	export let job;
+	import type { Job } from '$types/jobs';
+
+	export let job: Job;
 </script>
 
 <card>

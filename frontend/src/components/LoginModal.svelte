@@ -57,9 +57,9 @@
 				on:click={handleLogin}>Login</Button
 			>
 		</div>
-		{#if $appStore.login.error}
+		{#if $appStore.login.error.status !== 200}
 			<div class="errors">
-				<span>{$appStore.login.error}</span>
+				<span>{$appStore.login.error.message}</span>
 			</div>
 		{/if}
 	</main>

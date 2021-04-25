@@ -40,12 +40,12 @@ const login = async ({ email, password, name }: Login): Promise<void> => {
 				error = json[key][0];
 			}
 
-			return dispatch(() => loginFailed(error, name));
+			return dispatch(() => loginFailed({ status: res.status, message: error }, name));
 		}
 		timedDispatch({ type: REFRESH_TOKEN, name: 'app' }, 5);
 		return dispatch(() => loggedIn(json.token, json.user, name));
 	} catch (error) {
-		return dispatch(() => loginFailed(error, name));
+		return dispatch(() => loginFailed({ status: 500, message: error }, name));
 	}
 };
 

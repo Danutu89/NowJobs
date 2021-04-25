@@ -4,6 +4,7 @@
 	import type { Job } from '$types/jobs';
 
 	import { Button } from '$vendor/mase';
+	import Segment from '$vendor/mase/Segment.svelte';
 	import Circle from '$vendor/mase/Spinners/Circle.svelte';
 	import Error from '../routes/$error.svelte';
 	import JobApplyCard from './JobApplyCard.svelte';
@@ -16,42 +17,44 @@
 		};
 </script>
 
-<div class="card" class:loading class:error={error.status !== 200}>
-	{#if loading && error.status === 200}
-		<Circle color="#258cf4" size={30} />
-	{:else if !loading && error.status !== 200}
-		<Error status={error.status} {error} />
-	{:else if !loading && error.status === 200}
-		<div class="header">
-			<h1 class="title">{result.title}</h1>
+<Segment>
+	<div class="card" class:loading class:error={error.status !== 200}>
+		{#if loading && error.status === 200}
+			<Circle color="#258cf4" size={30} />
+		{:else if !loading && error.status !== 200}
+			<Error status={error.status} {error} />
+		{:else if !loading && error.status === 200}
+			<div class="header">
+				<h1 class="title">{result.title}</h1>
 
-			<div class="details">
-				<div class="location">icon Iasi,Romania</div>
-				{#if result.remote}
-					<div class="remote">Remote</div>
-				{/if}
+				<div class="details">
+					<div class="location">icon Iasi,Romania</div>
+					{#if result.remote}
+						<div class="remote">Remote</div>
+					{/if}
+				</div>
 			</div>
-		</div>
-		<hr />
-		<div class="description">
-			{result.description}
-		</div>
+			<hr />
+			<div class="description">
+				{result.description}
+			</div>
 
-		{#if !result.permissions?.write}
-			{#if $appStore.user.loggedIn && $appStore.user.data?.completed}
-				<hr />
-				<Button
-					styles="padding: 0.6rem 2rem;border-radius: 20px;width: calc(100% - 4rem);"
-					centered
-					color="secondary">Fast Apply</Button
-				>
-			{:else}
-				<hr />
-				<JobApplyCard />
+			{#if !result.permissions?.write}
+				{#if $appStore.user.loggedIn && $appStore.user.data?.completed}
+					<hr />
+					<Button
+						styles="padding: 0.6rem 2rem;border-radius: 20px;width: calc(100% - 4rem);"
+						centered
+						color="secondary">Fast Apply</Button
+					>
+				{:else}
+					<hr />
+					<JobApplyCard />
+				{/if}
 			{/if}
 		{/if}
-	{/if}
-</div>
+	</div>
+</Segment>
 
 <style lang="scss">
 	@import '../src/vendor/mase/globals.scss';
@@ -59,24 +62,18 @@
 	.card {
 		margin-right: 1rem;
 		width: 800px;
-		background: $background-secondary;
-		border-radius: 10px;
-		border: 1px solid darken($color: $background, $amount: 5);
-		padding: 1rem 2rem;
 		height: min-content;
 
 		@media screen and (max-width: 1280px) {
-			width: calc(100% - 350px - 4rem);
+			width: 100%;
 		}
 
 		@media screen and (max-width: 860px) {
-			width: calc(100% - 4rem);
 			margin-right: 0;
 		}
 
 		@media screen and (max-width: 680px) {
 			margin: auto;
-			width: calc(100% - 4rem);
 		}
 
 		&.loading,
@@ -123,8 +120,9 @@
 
 		hr {
 			border: 1px solid darken($color: $background, $amount: 5);
-			width: calc(100% + 4rem);
-			margin-left: -2rem;
+			width: calc(100% + 3rem);
+			margin: 1rem 0;
+			margin-left: -1.5rem;
 		}
 	}
 </style>

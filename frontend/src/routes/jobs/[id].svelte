@@ -29,7 +29,7 @@
 	<JobDetailedCard {...$jobsStore.job} />
 	<div class="right sidebar">
 		{#if $jobsStore.job.result?.permissions?.write === false}
-			<JobMiniCompanyCard />
+			<JobMiniCompanyCard company={$jobsStore.job.result.owner} />
 			<JobsPromoted jobs={new Array(4)} />
 		{:else}
 			<JobApplicants />
@@ -46,11 +46,13 @@
 	.container {
 		display: flex;
 		flex-flow: row;
+		flex: 800px 350px auto;
 		padding: 2rem 4rem;
 		justify-content: center;
 
 		@media screen and (max-width: 1280px) {
 			width: calc(100% - 8rem);
+			flex: calc(100% - 350px - 8rem) auto;
 			justify-content: center;
 		}
 
@@ -61,7 +63,7 @@
 
 		@media screen and (max-width: 680px) {
 			padding: 0.5rem 1rem;
-			width: calc(100% - 2rem);
+			min-width: calc(100% - 2rem);
 		}
 
 		.sidebar {
@@ -69,7 +71,11 @@
 				margin-bottom: 0.8rem;
 			}
 
+			margin-left: 1rem;
+
 			@media screen and (max-width: 860px) {
+				margin-left: 0;
+
 				margin-top: 1rem;
 				display: flex;
 				flex-flow: row;

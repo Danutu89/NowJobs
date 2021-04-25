@@ -1,48 +1,44 @@
 <script lang="ts">
+	import type { Company } from '$types/companies';
+	import Segment from '$vendor/mase/Segment.svelte';
+
 	import Circle from '$vendor/mase/Spinners/Circle.svelte';
 
-	export let company,
+	export let company: Company,
 		loading = false,
 		error = '';
 </script>
 
-<div class="company">
-	<h2>Company</h2>
-	<div class="details" class:loading class:error>
-		{#if !loading}
-			<div class="header">
-				<img
-					src="https://media-exp1.licdn.com/dms/image/C4D0BAQEHS3GdQrCeJQ/company-logo_100_100/0/1593371759344?e=1626307200&v=beta&t=qQRaTIeJGAon9ScM6K6W_Lt93vEXL7vwyjj8U8-8srs"
-					alt="company"
-					width="60px"
-					height="60px"
-				/>
-				<span class="title">NewApp</span>
-			</div>
-			<div class="locations">
-				<div class="location">icon Iasi,Romania</div>
-				<div class="location">icon Bucharest,Romania</div>
-			</div>
-			<div class="employes">icon 40</div>
-			<div class="departments">
-				<span class="department">Web Development</span>
-				<span class="department">CyberSecurity</span>
-			</div>
-		{:else if loading}
-			<Circle color="#258cf4" size={30} />
-		{:else if !loading && error}
-			{error}
-		{/if}
+<Segment>
+	<div class="company">
+		<h2>Company</h2>
+		<div class="details" class:loading class:error>
+			{#if !loading}
+				<div class="header">
+					<img src={company.icon} alt="company" width="60px" height="60px" />
+					<span class="title">{company.name}</span>
+				</div>
+				<div class="locations">
+					<div class="location">icon Iasi,Romania</div>
+					<div class="location">icon Bucharest,Romania</div>
+				</div>
+				<div class="employes">icon 40</div>
+				<div class="departments">
+					<span class="department">Web Development</span>
+					<span class="department">CyberSecurity</span>
+				</div>
+			{:else if loading}
+				<Circle color="#258cf4" size={30} />
+			{:else if !loading && error}
+				{error}
+			{/if}
+		</div>
 	</div>
-</div>
+</Segment>
 
 <style lang="scss">
 	@import '../src/vendor/mase/globals.scss';
 	.company {
-		background: $background-secondary;
-		border-radius: 10px;
-		border: 1px solid darken($color: $background, $amount: 5);
-		padding: 1.5rem;
 		height: min-content;
 		width: 250px;
 

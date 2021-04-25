@@ -5,6 +5,7 @@
 	import { applicantsInterceptor } from '$interceptors/applicants';
 	import { applicantsReducer } from '$reducers/applicants';
 	import { applicantsStore } from '$stores/applicants';
+	import Segment from '$vendor/mase/Segment.svelte';
 
 	import Circle from '$vendor/mase/Spinners/Circle.svelte';
 	import { createSlicer, dispatch } from '$vendor/sedux';
@@ -36,28 +37,30 @@
 	});
 </script>
 
-<div class="applicants">
-	<h2>Applicants</h2>
-	<div
-		class="list"
-		class:loading={$applicantsStore.applicants.loading}
-		class:error={$applicantsStore.applicants.error.status !== 200}
-	>
-		{#if !$applicantsStore.applicants.loading}
-			{#if $applicantsStore.applicants.results.length > 0}
-				{#each $applicantsStore.applicants.results as applicant}
-					<JobApplicant {applicant} on:select={handleApplicantSelect} />
-				{/each}
-			{:else}
-				No Applicants
+<Segment>
+	<div class="applicants">
+		<h2>Applicants</h2>
+		<div
+			class="list"
+			class:loading={$applicantsStore.applicants.loading}
+			class:error={$applicantsStore.applicants.error.status !== 200}
+		>
+			{#if !$applicantsStore.applicants.loading}
+				{#if $applicantsStore.applicants.results.length > 0}
+					{#each $applicantsStore.applicants.results as applicant}
+						<JobApplicant {applicant} on:select={handleApplicantSelect} />
+					{/each}
+				{:else}
+					No Applicants
+				{/if}
+			{:else if $applicantsStore.applicants.loading}
+				<Circle color="#258cf4" size={30} />
+			{:else if !$applicantsStore.applicants.loading && $applicantsStore.applicants.error.status !== 200}
+				{$applicantsStore.applicants.error.message}
 			{/if}
-		{:else if $applicantsStore.applicants.loading}
-			<Circle color="#258cf4" size={30} />
-		{:else if !$applicantsStore.applicants.loading && $applicantsStore.applicants.error.status !== 200}
-			{$applicantsStore.applicants.error.message}
-		{/if}
+		</div>
 	</div>
-</div>
+</Segment>
 {#if loaded}
 	<ApplicantModal applicant={selectedApplicant} on:close={handleApplicantModalClose} />
 {/if}
@@ -66,10 +69,6 @@
 	@import '../src/vendor/mase/globals.scss';
 
 	.applicants {
-		background: $background-secondary;
-		border-radius: 10px;
-		border: 1px solid darken($color: $background, $amount: 5);
-		padding: 1.5rem;
 		height: min-content;
 		width: 300px;
 

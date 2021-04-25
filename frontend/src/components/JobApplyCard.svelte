@@ -23,13 +23,9 @@
 	};
 
 	const handleApplyJob = (): void => {
-		let check = Object.values(errors).reduce((prev, current) => {
-			if (current) return true;
-			current = prev;
-			return current;
-		}, false);
+		let check = Object.values(errors).findIndex((item) => !item);
 
-		if (check) return;
+		if (check != -1) return;
 
 		dispatch(() => applyJob(data, 'jobs'));
 	};

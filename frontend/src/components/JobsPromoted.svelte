@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Segment from '$vendor/mase/Segment.svelte';
 	import Circle from '$vendor/mase/Spinners/Circle.svelte';
 	import JobMiniCard from './JobMiniCard.svelte';
 
@@ -7,33 +8,31 @@
 		error = '';
 </script>
 
-<div class="promoted">
-	<h2>Promoted Jobs</h2>
-	<div class="list" class:loading class:error>
-		{#if !loading}
-			{#if jobs.length > 0}
-				{#each jobs as job}
-					<JobMiniCard {job} />
-				{/each}
-			{:else}
-				No Jobs
+<Segment>
+	<div class="promoted">
+		<h2>Promoted Jobs</h2>
+		<div class="list" class:loading class:error>
+			{#if !loading}
+				{#if jobs.length > 0}
+					{#each jobs as job}
+						<JobMiniCard {job} />
+					{/each}
+				{:else}
+					No Jobs
+				{/if}
+			{:else if loading}
+				<Circle color="#258cf4" size={30} />
+			{:else if !loading && error}
+				{error}
 			{/if}
-		{:else if loading}
-			<Circle color="#258cf4" size={30} />
-		{:else if !loading && error}
-			{error}
-		{/if}
+		</div>
 	</div>
-</div>
+</Segment>
 
 <style lang="scss">
 	@import '../src/vendor/mase/globals.scss';
 
 	.promoted {
-		background: $background-secondary;
-		border-radius: 10px;
-		border: 1px solid darken($color: $background, $amount: 5);
-		padding: 1.5rem;
 		height: min-content;
 		width: 250px;
 
