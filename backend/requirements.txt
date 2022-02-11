@@ -42,7 +42,7 @@ shortuuid==1.0.1
 six==1.15.0
 sqlparse==0.4.1
 toml==0.10.2
-Twisted==21.2.0
+Twisted==22.1.0
 txaio==21.2.1
 typing-extensions==3.7.4.3
 urllib3==1.26.4
